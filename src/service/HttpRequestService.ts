@@ -1,9 +1,10 @@
 import type { PostData, SingInData, SingUpData } from "./index";
 import axios from "axios";
 import { S3Service } from "./S3Service";
+import { verify } from "crypto";
 
 const url =
-  process.env.REACT_APP_API_URL || "https://twitter-ieea.onrender.com/api";
+  process.env.REACT_APP_API_URL || "http://localhost:8080/api";
 
 const httpRequestService = {
   signUp: async (data: Partial<SingUpData>) => {
@@ -82,6 +83,14 @@ const httpRequestService = {
     if (res.status === 200) {
       return res.data;
     }
+  },
+  verify: async (token: string) => {
+    const res = await axios.get(`${url}/user/verify`, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    return res.status
   },
   getPostById: async (id: string) => {
     const res = await axios.get(`${url}/post/${id}`, {
@@ -166,6 +175,8 @@ const httpRequestService = {
   },
 
   getProfile: async (id: string) => {
+    //`${url}/user/profile/${id}`
+    //`${url}/user/me`
     const res = await axios.get(`${url}/user/profile/${id}`, {
       headers: {
         Authorization: localStorage.getItem("token"),

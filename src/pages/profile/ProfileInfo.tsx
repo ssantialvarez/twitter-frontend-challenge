@@ -14,6 +14,9 @@ const ProfileInfo = ({
   username,
   profilePicture,
 }: ProfileInfoContainerProps) => {
+  console.log(name)
+  console.log(username)
+  console.log(profilePicture)
   return (
     <StyledContainer gap={"32px"} flex={2} flexDirection={"row"}>
       <Avatar

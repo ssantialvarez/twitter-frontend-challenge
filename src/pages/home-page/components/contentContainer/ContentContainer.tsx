@@ -13,6 +13,7 @@ const ContentContainer = () => {
       <StyledFeedContainer>
         <StyledContainer
           width={"100%"}
+          height={"auto"}
           padding={"16px"}
           borderBottom={"1px solid #ebeef0"}
         >

@@ -59,7 +59,7 @@ const CommentPage = () => {
     setImages([]);
     dispatch(setLength(length + 1));
     const posts = await service.getPosts(query);
-    dispatch(updateFeed(posts));
+    dispatch(updateFeed(posts.posts));
     exit();
   };
   const handleRemoveImage = (index: number) => {

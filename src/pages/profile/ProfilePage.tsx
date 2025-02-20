@@ -108,15 +108,15 @@ const ProfilePage = () => {
           service
               .getProfileView(id)
               .then((res) => {
-                setProfile(res);
-                setFollowing(false);
+                setProfile(res.user);
+                setFollowing(res.followsYou);
               })
               .catch((error2) => {
                 console.log(error2);
               });
         });
   };
-
+  console.log(profile)
   return (
       <>
         <StyledContainer

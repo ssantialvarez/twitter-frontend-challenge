@@ -8,9 +8,10 @@ import LabeledInput from "../../../components/labeled-input/LabeledInput";
 import Button from "../../../components/button/Button";
 import { ButtonType } from "../../../components/button/StyledButton";
 import { StyledH3 } from "../../../components/common/text";
+import { validate as validateEmail } from 'email-validator';
 
 const SignInPage = () => {
-  const [email, setEmail] = useState("");
+  const [emailUsername, setEmailUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
 
@@ -19,8 +20,10 @@ const SignInPage = () => {
   const { t } = useTranslation();
 
   const handleSubmit = () => {
+    const data = validateEmail(emailUsername) ? { email: emailUsername, password } : { username: emailUsername, password };
+    
     httpRequestService
-      .signIn({ email, password })
+      .signIn(data)
       .then(() => navigate("/"))
       .catch(() => setError(true));
   };
@@ -36,10 +39,10 @@ const SignInPage = () => {
           <div className={"input-container"}>
             <LabeledInput
               required
-              placeholder={"Enter user..."}
+              placeholder={"Enter user or email..."}
               title={t("input-params.username")}
               error={error}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setEmailUsername(e.target.value)}
             />
             <LabeledInput
               type="password"

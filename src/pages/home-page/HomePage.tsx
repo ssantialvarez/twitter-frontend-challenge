@@ -17,9 +17,10 @@ const HomePage = () => {
   const handleSetUser = async () => {
     try {
       const data = await service.getPosts(query);
-      dispatch(updateFeed(data));
+      dispatch(updateFeed(data.posts));
     } catch (e) {
-      navigate("/sign-in");
+      //navigate("/sign-in");
+      console.log(e)
     }
   };
 

@@ -18,7 +18,7 @@ const TabBar = () => {
     const data = await service.getPosts(query).catch((e) => {
       console.log(e);
     });
-    dispatch(updateFeed(data));
+    dispatch(updateFeed(data.posts));
   };
 
   return (
