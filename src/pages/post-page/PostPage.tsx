@@ -1,47 +1,32 @@
-import React, { Component } from "react";
+import { useEffect, useState } from "react";
 import { StyledContainer } from "../../components/common/Container";
 import Tweet from "../../components/tweet/Tweet";
 import Loader from "../../components/loader/Loader";
-import { HttpService } from "../../service/HttpRequestService";
+import { useHttpRequestService } from "../../service/HttpRequestService";
 import TweetBox from "../../components/tweet-box/TweetBox";
 import { StyledH5 } from "../../components/common/text";
 import { StyledFeedContainer } from "../home-page/components/contentContainer/FeedContainer";
 import CommentFeed from "../../components/feed/CommentFeed";
+import { useLocation } from "react-router-dom";
+import { Post } from "../../service";
 
-class PostPage extends Component {
-  constructor(props) {
-    super(props);
+const PostPage = () => {
+    const [post, setPost] = useState<Post | undefined>(undefined);
+    const postId = useLocation().pathname.split("/")[2];
+    const service = useHttpRequestService()
 
-    this.state = {
-      postId: window.location.href.split("/")[4],
-      post: undefined,
-    };
+    useEffect(() => {
+        service
+        .getPostById(postId)
+        .then((res) => {
+            setPost(res);
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    }, [postId])
 
-    this.service = new HttpService().service;
-  }
-
-  componentDidMount() {
-    this.fetchPost();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.postId !== this.state.postId) {
-      this.fetchPost();
-    }
-  }
-
-  fetchPost() {
-    this.service
-      .getPostById(this.state.postId)
-      .then((res) => {
-        this.setState({ post: res });
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
-
-  render() {
+  
     return (
       <StyledContainer borderRight={"1px solid #ebeef0"}>
         <StyledContainer
@@ -52,18 +37,18 @@ class PostPage extends Component {
           <StyledH5>Tweet</StyledH5>
         </StyledContainer>
         <StyledFeedContainer>
-          {this.state.post ? (
+          {post ? (
             <>
-              <Tweet post={this.state.post} />
+              <Tweet post={post} />
               <StyledContainer
                 borderBottom={"1px solid #ebeef0"}
                 padding={"16px"}
               >
-                <TweetBox parentId={this.state.postId} />
+                <TweetBox parentId={postId} />
               </StyledContainer>
 
               <StyledContainer minHeight={"53.5vh"}>
-                <CommentFeed postId={this.state.postId} />
+                <CommentFeed postId={postId} />
               </StyledContainer>
             </>
           ) : (
@@ -74,7 +59,7 @@ class PostPage extends Component {
         </StyledFeedContainer>
       </StyledContainer>
     );
-  }
+  
 }
 
 export default PostPage;
