@@ -8,7 +8,6 @@ export const useGetFeed = () => {
   const [error, setError] = useState(false);
   const posts = useAppSelector((state) => state.user.feed);
   const query = useAppSelector((state) => state.user.query);
-  console.log(query)
   const dispatch = useAppDispatch();
 
   const service = useHttpRequestService();

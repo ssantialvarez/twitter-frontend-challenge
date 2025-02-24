@@ -10,7 +10,6 @@ interface FeedProps {
 }
 
 const Feed = ({ posts, loading }: FeedProps) => {
-  console.log(posts)
   return (
     <StyledContainer width={"100%"} alignItems={"center"}>
       {posts

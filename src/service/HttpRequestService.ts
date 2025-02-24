@@ -1,6 +1,7 @@
 import type { PostData, SingInData, SingUpData } from "./index";
-import axios, { HeadersDefaults } from "axios";
+import axios from "axios";
 import { S3Service } from "./S3Service";
+import { useNavigate } from "react-router-dom";
 
 const url =
   process.env.REACT_APP_API_URL || "http://localhost:8080/api";
@@ -54,7 +55,7 @@ const httpRequestService = {
       return res.data.posts;
     }
   },
-  
+
   getRecommendedUsers: async (limit: number, skip: number) => {
     const res = await axiosInstance.get('/user', {
       params: {
@@ -153,7 +154,7 @@ const httpRequestService = {
   },
   getPostsFromProfile: async (id: string) => {
     const res = await axiosInstance.get(`/post/by_user/${id}`);
-
+    
     if (res.status === 200) {
       return res.data;
     }
@@ -256,14 +257,11 @@ axiosInstance.interceptors.response.use(function (response) {
 }, function (error) {
   // Any status codes that falls outside the range of 2xx cause this function to trigger
   // Do something with response error
-  return Promise.reject(error);
+  localStorage.removeItem('token')
+  window.location.href = "/sign-in"; 
 });
 
 const useHttpRequestService = () => httpRequestService;
 
-// For class component (remove when unused)
-class HttpService {
-  service = httpRequestService;
-}
 
-export { useHttpRequestService, HttpService };
+export { useHttpRequestService };

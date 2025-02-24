@@ -5,7 +5,7 @@ import { updateFeed } from "../../redux/user";
 import { useHttpRequestService } from "../../service/HttpRequestService";
 import { SearchBar } from "../../components/search-bar/SearchBar";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { StyledUserSuggestionContainer } from "./UserSeuggestionContainer";
+import { StyledUserSuggestionContainer } from "./UserSuggestionContainer";
 
 const HomePage = () => {
   const dispatch = useAppDispatch();

@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const StyledTabContainer = styled.div`
   display: flex;
-  max-width: 301px;
   width: 100% !important;
   flex-direction: column;
   align-items: center;
@@ -26,6 +25,11 @@ export const StyledTabContainer = styled.div`
 
   .active {
     font-weight: 800;
+  }
+
+  &:hover {
+    background: #e6e7e7;
+    cursor: pointer;
   }
 
   @media (max-width: 1024px) {

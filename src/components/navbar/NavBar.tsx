@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import NavItem from "./navItem/NavItem";
 import Button from "../button/Button";
-import {useLocation, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {StyledTweetButton} from "../tweet-button/StyledTweetButton";
 import TweetModal from "../tweet-modal/TweetModal";
 import {IconType, LogoIcon} from "../icon/Icon";
@@ -53,7 +53,9 @@ const NavBar = () => {
       <StyledNavBarContainer>
         <StyledContainer flex={1}>
           <StyledIconContainer>
-            <LogoIcon/>
+            <Link to={'/'}>
+              <LogoIcon/>
+            </Link>
           </StyledIconContainer>
           <StyledNavItemsContainer>
             <NavItem
