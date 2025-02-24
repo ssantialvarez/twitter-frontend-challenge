@@ -1,5 +1,5 @@
 import React from "react";
-import { createBrowserRouter, Outlet } from "react-router-dom";
+import { createBrowserRouter, Outlet, redirect } from "react-router-dom";
 import { StyledSideBarPageWrapper } from "../../pages/side-bar-page/SideBarPageWrapper";
 import NavBar from "../navbar/NavBar";
 import SignUpPage from "../../pages/auth/sign-up/SignUpPage";
@@ -10,15 +10,8 @@ import ProfilePage from "../../pages/profile/ProfilePage";
 import TweetPage from "../../pages/create-tweet-page/TweetPage";
 import CommentPage from "../../pages/create-comment-page/CommentPage";
 import PostPage from "../../pages/post-page/PostPage";
+import ProtectedRoutes from "../../pages/auth/components/ProtectedRoutes";
 
-const WithNav = () => {
-  return (
-    <StyledSideBarPageWrapper>
-      <NavBar />
-      <Outlet />
-    </StyledSideBarPageWrapper>
-  );
-};
 
 export const ROUTER = createBrowserRouter([
   {
@@ -27,10 +20,11 @@ export const ROUTER = createBrowserRouter([
   },
   {
     path: "/sign-in",
+    
     element: <SignInPage />,
   },
   {
-    element: <WithNav />,
+    element: <ProtectedRoutes />,
     children: [
       {
         path: "/",
