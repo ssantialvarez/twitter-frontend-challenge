@@ -10,6 +10,7 @@ import Button from "../../components/button/Button";
 import ProfileFeed from "../../components/feed/ProfileFeed";
 import {StyledContainer} from "../../components/common/Container";
 import {StyledH5} from "../../components/common/text";
+import { useGetMe } from "../../hooks/useGetMe";
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState<User | null>(null);
@@ -22,14 +23,14 @@ const ProfilePage = () => {
     buttonText: "",
   });
   const service = useHttpRequestService()
-  const [user, setUser] = useState<User>()
+  const user = useGetMe()
 
   const id = useParams().id;
   const navigate = useNavigate();
 
   const {t} = useTranslation();
 
-
+  /*
   useEffect(() => {
     handleGetUser().then(r => setUser(r))
   }, []);
@@ -37,7 +38,7 @@ const ProfilePage = () => {
   const handleGetUser = async () => {
     return await service.me()
   }
-
+  */
   const handleButtonType = (): { component: ButtonType; text: string } => {
     if (profile?.id === user?.id)
       return {component: ButtonType.DELETE, text: t("buttons.delete")};

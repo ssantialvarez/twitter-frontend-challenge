@@ -1,12 +1,11 @@
 import type { PostData, SingInData, SingUpData } from "./index";
 import axios from "axios";
 import { S3Service } from "./S3Service";
-import { useNavigate } from "react-router-dom";
 
 const url =
   process.env.REACT_APP_API_URL || "http://localhost:8080/api";
 
-const axiosInstance = axios.create({
+export const axiosInstance = axios.create({
   baseURL:url
 })
 

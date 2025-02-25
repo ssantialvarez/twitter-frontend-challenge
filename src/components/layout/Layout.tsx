@@ -9,6 +9,8 @@ import global_es from "../../translations/es/global.json";
 import { store } from "../../redux/store";
 import { LightTheme } from "../../util/LightTheme";
 import { ROUTER } from "./Router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 i18next.use(initReactI18next).init({
   interpolation: { escapeValue: false },
@@ -25,11 +27,16 @@ i18next.use(initReactI18next).init({
 });
 
 export const Layout = () => {
+  const queryClient = new QueryClient()
+
   return (
     <I18nextProvider i18n={i18next}>
       <Provider store={store}>
         <ThemeProvider theme={LightTheme}>
-          <RouterProvider router={ROUTER} />
+          <QueryClientProvider client={queryClient}>
+            <ReactQueryDevtools />
+            <RouterProvider router={ROUTER} />
+          </QueryClientProvider>
         </ThemeProvider>
       </Provider>
     </I18nextProvider>

@@ -9,6 +9,7 @@ import {StyledP} from "../common/text";
 import {StyledContainer} from "../common/Container";
 import {useHttpRequestService} from "../../service/HttpRequestService";
 import {User} from "../../service";
+import { useGetMe } from "../../hooks/useGetMe";
 
 
 interface ProfileLogoutPromptProps {
@@ -19,9 +20,9 @@ interface ProfileLogoutPromptProps {
 const ProfileLogoutPrompt = ({margin, direction}: ProfileLogoutPromptProps) => {
     const [logoutOpen, setLogoutOpen] = useState(false);
     const service = useHttpRequestService()
-    const [user, setUser] = useState<User>()
+    const user = useGetMe()
 
-
+    /*
     useEffect(() => {
         handleGetUser().then(r => setUser(r))
     }, []);
@@ -29,7 +30,7 @@ const ProfileLogoutPrompt = ({margin, direction}: ProfileLogoutPromptProps) => {
     const handleGetUser = async () => {
         return await service.me()
     }
-
+    */
 
     const handleLogout = () => {
         setLogoutOpen(!logoutOpen);

@@ -15,18 +15,19 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { StyledContainer } from "../../components/common/Container";
 import { StyledLine } from "../../components/common/Line";
 import { StyledP } from "../../components/common/text";
+import { useGetMe } from "../../hooks/useGetMe";
 
 const CommentPage = () => {
   const [content, setContent] = useState("");
   const [post, setPost] = useState<Post | undefined>(undefined);
   const [images, setImages] = useState<File[]>([]);
-  const [user, setUser] = useState<User>()
+  const user = useGetMe()
   const postId = useLocation().pathname.split("/")[3];
   const service = useHttpRequestService();
   const { length, query } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-
+  /*
   useEffect(() => {
     handleGetUser().then(r => setUser(r))
   }, []);
@@ -34,7 +35,7 @@ const CommentPage = () => {
   const handleGetUser = async () => {
     return await service.me()
   }
-
+  */
   useEffect(() => {
     window.innerWidth > 600 && exit();
   }, []);

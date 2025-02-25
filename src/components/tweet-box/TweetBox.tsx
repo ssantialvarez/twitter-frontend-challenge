@@ -14,6 +14,7 @@ import {StyledButtonContainer} from "./ButtonContainer";
 import {useDispatch} from "react-redux";
 import {User} from "../../service";
 import { useAppSelector } from "../../redux/hooks";
+import { useGetMe } from "../../hooks/useGetMe";
 
 interface TweetBoxProps {
   parentId?: string;
@@ -32,9 +33,9 @@ const TweetBox = ({parentId, close, mobile, borderless} : TweetBoxProps) => {
     const dispatch = useDispatch();
     const {t} = useTranslation();
     const service = useHttpRequestService()
-    const [user, setUser] = useState<User>()
+    const user = useGetMe()
 
-
+    /*
     useEffect(() => {
         handleGetUser().then(r => setUser(r))
     }, []);
@@ -42,7 +43,7 @@ const TweetBox = ({parentId, close, mobile, borderless} : TweetBoxProps) => {
     const handleGetUser = async () => {
         return await service.me()
     }
-
+    */
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setContent(e.target.value);
     };
