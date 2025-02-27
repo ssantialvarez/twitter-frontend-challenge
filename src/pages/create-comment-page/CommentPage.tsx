@@ -15,7 +15,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { StyledContainer } from "../../components/common/Container";
 import { StyledLine } from "../../components/common/Line";
 import { StyledP } from "../../components/common/text";
-import { useGetMe } from "../../hooks/useGetMe";
+import { useGetMe } from "../../hooks/useUser";
 
 const CommentPage = () => {
   const [content, setContent] = useState("");

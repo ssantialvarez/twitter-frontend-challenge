@@ -4,12 +4,16 @@ import { useHttpRequestService } from "../../../../service/HttpRequestService";
 import { useTranslation } from "react-i18next";
 import { User } from "../../../../service";
 import { StyledSuggestionBoxContainer } from "./SuggestionBoxContainer";
+import { useGetRecommendedUsers } from "../../../../hooks/useUser";
 
 const SuggestionBox = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const httpService = useHttpRequestService();
+  //const [users, setUsers] = useState<User[]>([]);
+  //const httpService = useHttpRequestService();
   const { t } = useTranslation();
-
+  const data = useGetRecommendedUsers(6,0)
+  const users : User[] = data.users
+  
+  /*
   useEffect(() => {
     try {
       httpService.getRecommendedUsers(6, 0).then((res) => {
@@ -19,6 +23,7 @@ const SuggestionBox = () => {
       console.log(e);
     }
   }, []);
+  */
 
   return (
     <StyledSuggestionBoxContainer>

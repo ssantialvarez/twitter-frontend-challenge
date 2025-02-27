@@ -11,7 +11,7 @@ import {StyledContainer} from "../../common/Container";
 import {StyledP} from "../../common/text";
 import {useHttpRequestService} from "../../../service/HttpRequestService";
 import {User} from "../../../service";
-import { useGetMe } from "../../../hooks/useGetMe";
+import { useGetMe } from "../../../hooks/useUser";
 
 interface LogoutPromptProps {
   show: boolean;

@@ -12,7 +12,7 @@ import DeletePostModal from "./delete-post-modal/DeletePostModal";
 import ImageContainer from "./tweet-image/ImageContainer";
 import CommentModal from "../comment/comment-modal/CommentModal";
 import {useNavigate} from "react-router-dom";
-import { useGetMe } from "../../hooks/useGetMe";
+import { useGetMe } from "../../hooks/useUser";
 
 interface TweetProps {
   post: Post;

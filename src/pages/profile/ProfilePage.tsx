@@ -10,7 +10,7 @@ import Button from "../../components/button/Button";
 import ProfileFeed from "../../components/feed/ProfileFeed";
 import {StyledContainer} from "../../components/common/Container";
 import {StyledH5} from "../../components/common/text";
-import { useGetMe } from "../../hooks/useGetMe";
+import { useGetMe, useGetProfile } from "../../hooks/useUser";
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState<User | null>(null);
@@ -25,20 +25,12 @@ const ProfilePage = () => {
   const service = useHttpRequestService()
   const user = useGetMe()
 
-  const id = useParams().id;
+  const id = useParams().id as string;
+  const aux = useGetProfile(id)
   const navigate = useNavigate();
 
   const {t} = useTranslation();
 
-  /*
-  useEffect(() => {
-    handleGetUser().then(r => setUser(r))
-  }, []);
-
-  const handleGetUser = async () => {
-    return await service.me()
-  }
-  */
   const handleButtonType = (): { component: ButtonType; text: string } => {
     if (profile?.id === user?.id)
       return {component: ButtonType.DELETE, text: t("buttons.delete")};
@@ -151,7 +143,7 @@ const ProfilePage = () => {
                   </StyledContainer>
                 </StyledContainer>
                 <StyledContainer width={"100%"}>
-                  {profile.followers ? (
+                  {profile?.id === user?.id || following ? (
                       <ProfileFeed/>
                   ) : (
                       <StyledH5>Private account</StyledH5>

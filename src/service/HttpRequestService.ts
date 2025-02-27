@@ -66,6 +66,7 @@ const httpRequestService = {
       return res.data;
     }
   },
+
   me: async () => {
     const res = await axiosInstance.get('/user/me');
     if (res.status === 200) {
@@ -256,11 +257,18 @@ axiosInstance.interceptors.response.use(function (response) {
 }, function (error) {
   // Any status codes that falls outside the range of 2xx cause this function to trigger
   // Do something with response error
+  
+  
   localStorage.removeItem('token')
-  window.location.href = "/sign-in"; 
+  window.location.href = "/sign-in";
+  //return Promise.reject 
 });
 
 const useHttpRequestService = () => httpRequestService;
 
+// For class component (remove when unused)
+class HttpService {
+  service = httpRequestService;
+}
 
-export { useHttpRequestService };
+export { useHttpRequestService, HttpService };

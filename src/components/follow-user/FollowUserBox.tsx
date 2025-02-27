@@ -5,7 +5,7 @@ import UserDataBox from "../user-data-box/UserDataBox";
 import {useTranslation} from "react-i18next";
 import {ButtonType} from "../button/StyledButton";
 import {Author, User} from "../../service";
-import { useGetMe } from "../../hooks/useGetMe";
+import { useGetMe } from "../../hooks/useUser";
 import { StyledBoxContainer } from "./BoxContainer";
 
 interface FollowUserBoxProps {
@@ -24,21 +24,14 @@ const FollowUserBox = ({
   const {t} = useTranslation();
   const service = useHttpRequestService()
   const user = useGetMe()
-
-  /*
-  useEffect(() => {
-    handleGetUser().then(r => {
-      setUser(r)
-      setIsFollowing(r?.following.some((f: Author) => f.id === id))
-    })
-  }, []);
   
-  const handleGetUser = async () => {
-    return await service.me()
-  }
-  */
   const [isFollowing, setIsFollowing] = useState(false);
-  setIsFollowing(user.following.some((f: Author) => f.id === id))
+  useEffect(() => {
+    if (user?.following) {
+      setIsFollowing(user.following.some((f: Author) => f.id === id));
+    }
+  }, [user.following, id]);
+  
   const handleFollow = async () => {
     if (isFollowing) {
       await service.unfollowUser(id);
@@ -49,7 +42,6 @@ const FollowUserBox = ({
   };
 
   return (
-      //className=box-container
       <StyledBoxContainer>
         <UserDataBox
             id={id}

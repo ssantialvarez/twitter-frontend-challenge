@@ -19,7 +19,7 @@ import {StyledP} from "../common/text";
 import {useHttpRequestService} from "../../service/HttpRequestService";
 import {User} from "../../service";
 import ProfileLogoutPrompt from "../profile-logout/ProfileLogoutPrompt";
-import { useGetMe } from "../../hooks/useGetMe";
+import { useGetMe } from "../../hooks/useUser";
 
 const NavBar = () => {
   const location = useLocation();

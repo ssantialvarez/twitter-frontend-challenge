@@ -9,7 +9,7 @@ import {StyledP} from "../common/text";
 import {StyledContainer} from "../common/Container";
 import {useHttpRequestService} from "../../service/HttpRequestService";
 import {User} from "../../service";
-import { useGetMe } from "../../hooks/useGetMe";
+import { useGetMe } from "../../hooks/useUser";
 
 
 interface ProfileLogoutPromptProps {

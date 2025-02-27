@@ -14,7 +14,7 @@ import {StyledButtonContainer} from "./ButtonContainer";
 import {useDispatch} from "react-redux";
 import {User} from "../../service";
 import { useAppSelector } from "../../redux/hooks";
-import { useGetMe } from "../../hooks/useGetMe";
+import { useGetMe } from "../../hooks/useUser";
 
 interface TweetBoxProps {
   parentId?: string;
