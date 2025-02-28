@@ -9,6 +9,7 @@ import LabeledInput from "../../../components/labeled-input/LabeledInput";
 import Button from "../../../components/button/Button";
 import { ButtonType } from "../../../components/button/StyledButton";
 import { StyledH3 } from "../../../components/common/text";
+import { useMutation } from "@tanstack/react-query";
 
 interface SignUpData {
   name: string;
@@ -20,21 +21,35 @@ interface SignUpData {
 const SignUpPage = () => {
   const [data, setData] = useState<Partial<SignUpData>>({});
   const [error, setError] = useState(false);
-
   const httpRequestService = useHttpRequestService();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
+  const mutation = useMutation({
+    mutationFn: httpRequestService.signUp,
+    onSuccess: () => {
+      navigate("/")
+    },
+    onError: () => {
+      setError(true)
+    }
+  })
+
+
+
+  
   const handleChange =
     (prop: string) => (event: ChangeEvent<HTMLInputElement>) => {
       setData({ ...data, [prop]: event.target.value });
     };
   const handleSubmit = async () => {
     const { confirmPassword, ...requestData } = data;
-    httpRequestService
-      .signUp(requestData)
-      .then(() => navigate("/"))
-      .catch(() => setError(false));
+    mutation.mutate(requestData)
+    
+    //httpRequestService
+      //.signUp(requestData)
+      //.then(() => navigate("/"))
+      //.catch(() => setError(false));
   };
 
   return (

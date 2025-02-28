@@ -63,6 +63,7 @@ const httpRequestService = {
       },
     });
     if (res.status === 200) {
+      console.log(res.data)
       return res.data;
     }
   },
@@ -257,11 +258,13 @@ axiosInstance.interceptors.response.use(function (response) {
 }, function (error) {
   // Any status codes that falls outside the range of 2xx cause this function to trigger
   // Do something with response error
+  console.log(error.response.code)
+  if(error.response.code === 401){
+    localStorage.removeItem('token')
+    window.location.href = "/sign-in";
+  }  
   
-  
-  localStorage.removeItem('token')
-  window.location.href = "/sign-in";
-  //return Promise.reject 
+  return Promise.reject 
 });
 
 const useHttpRequestService = () => httpRequestService;

@@ -13,7 +13,7 @@ import {StyledH5} from "../../components/common/text";
 import { useGetMe, useGetProfile } from "../../hooks/useUser";
 
 const ProfilePage = () => {
-  const [profile, setProfile] = useState<User | null>(null);
+  //const [profile, setProfile] = useState<User | null>(null);
   const [following, setFollowing] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [modalValues, setModalValues] = useState({
@@ -26,10 +26,12 @@ const ProfilePage = () => {
   const user = useGetMe()
 
   const id = useParams().id as string;
-  const aux = useGetProfile(id)
+  const profile = useGetProfile(id)
   const navigate = useNavigate();
 
   const {t} = useTranslation();
+
+  
 
   const handleButtonType = (): { component: ButtonType; text: string } => {
     if (profile?.id === user?.id)
@@ -49,15 +51,23 @@ const ProfilePage = () => {
       service.unfollowUser(profile!.id).then(async () => {
         setFollowing(false);
         setShowModal(false);
-        await getProfileData();
+        //await getProfileData();
       });
     }
   };
-
+  
   useEffect(() => {
-    getProfileData().then();
+    if(profile.id === user.id)
+      setFollowing(true)
+    else{
+      setFollowing(
+        profile
+            ? profile?.followers.some((follower: string) => follower === user?.id)
+            : false
+    );
+    }
   }, [id]);
-
+  
   if (!id) return null;
 
   const handleButtonAction = async () => {
@@ -80,12 +90,12 @@ const ProfilePage = () => {
         });
       } else {
         await service.followUser(id);
-        service.getProfile(id).then((res) => setProfile(res));
+        //service.getProfile(id).then((res) => setProfile(res));
       }
-      return await getProfileData();
+      //return await getProfileData();
     }
   };
-
+  /*
   const getProfileData = async () => {
     service
         .getProfile(id)
@@ -109,7 +119,7 @@ const ProfilePage = () => {
               });
         });
   };
-
+  */
   return (
       <>
         <StyledContainer
@@ -143,7 +153,7 @@ const ProfilePage = () => {
                   </StyledContainer>
                 </StyledContainer>
                 <StyledContainer width={"100%"}>
-                  {profile?.id === user?.id || following ? (
+                  {(following || profile.public) ? (
                       <ProfileFeed/>
                   ) : (
                       <StyledH5>Private account</StyledH5>

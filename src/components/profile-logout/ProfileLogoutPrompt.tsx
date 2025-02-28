@@ -40,6 +40,10 @@ const ProfileLogoutPrompt = ({margin, direction}: ProfileLogoutPromptProps) => {
         event.stopPropagation();
     };
 
+    /*if(user.profilePicture)
+        user.profilePicture = 'https://twitter-backend-demo-a617f6da-58a7-4888-b927-88eaae142243.s3.us-east-2.amazonaws.com/' + user.profilePicture;
+    */
+    console.log(user?.profilePicture)
 
     return (
         <StyledContainer
@@ -52,7 +56,7 @@ const ProfileLogoutPrompt = ({margin, direction}: ProfileLogoutPromptProps) => {
             cursor={'pointer'}
         >
             <StyledProfileLogoutPromptContainer direction={direction}>
-                <img src={user?.profilePicture ?? icon} className="icon" alt="Icon"/>
+                <img src={user?.profilePicture ? 'https://twitter-backend-demo-a617f6da-58a7-4888-b927-88eaae142243.s3.us-east-2.amazonaws.com/' + user.profilePicture : icon} className="icon" alt="Icon"/>
                 {logoutOpen &&
                     <StyledLogoutPrompt margin={margin} onClick={(event) => handleButtonClick(event)}>
                         <LogoutPrompt show={logoutOpen}/>

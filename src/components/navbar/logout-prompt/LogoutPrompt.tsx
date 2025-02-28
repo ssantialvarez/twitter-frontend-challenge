@@ -12,6 +12,7 @@ import {StyledP} from "../../common/text";
 import {useHttpRequestService} from "../../../service/HttpRequestService";
 import {User} from "../../../service";
 import { useGetMe } from "../../../hooks/useUser";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface LogoutPromptProps {
   show: boolean;
@@ -24,7 +25,7 @@ const LogoutPrompt = ({ show }: LogoutPromptProps) => {
   const { t, i18n } = useTranslation();
   const service = useHttpRequestService()
   const user = useGetMe()
-
+  const queryClient = useQueryClient()
   /*
   useEffect(() => {
     handleGetUser().then(r => setUser(r))
@@ -49,6 +50,7 @@ const LogoutPrompt = ({ show }: LogoutPromptProps) => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    queryClient.clear()
     navigate("/sign-in");
   };
 

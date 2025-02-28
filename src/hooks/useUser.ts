@@ -1,8 +1,9 @@
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { HttpService, useHttpRequestService } from "../service/HttpRequestService";
+import { useParams } from "react-router-dom";
 
 const httpService = new HttpService()
-const staleTime = 1000 * 60 * 5 // 5 min
+const staleTime = 1000 * 60 * 2 // 5 min
 
 export const useGetMe = () => {
   const { data } = useSuspenseQuery({
@@ -31,6 +32,15 @@ export const useGetProfile = (id: string) => {
   });
   return data
 }
+export const useGetProfilePosts = () => {
+  const id = useParams().id as string;
+  const { data, isLoading } = useSuspenseQuery({
+    queryKey: ['profilePosts', id],
+    queryFn: () => httpService.service.getPostsFromProfile(id),
+    staleTime: staleTime, 
+  })
 
+  return {posts: data, loading: isLoading}
+}
 
 

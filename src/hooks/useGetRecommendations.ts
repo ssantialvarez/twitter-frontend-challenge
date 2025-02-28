@@ -22,12 +22,12 @@ export const useGetRecommendations = ({ page }: UseGetRecommendationsProps) => {
       setLoading(true);
       getUsers()
         .then((response) => {
-          if (response.length === 0) {
+          if (response.users.length === 0) {
             setHasMore(false);
           } else {
             setUsers((prev) => {
               const uniqueIds = new Set(prev.map((user) => user.id));
-              const filteredUsers = response.filter(
+              const filteredUsers = response.users.filter(
                 (user: Author) => !uniqueIds.has(user.id)
               );
               return [...prev, ...filteredUsers];
