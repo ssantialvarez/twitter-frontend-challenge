@@ -42,7 +42,8 @@
     "password": "Contraseña",
     "email": "Email",
     "name": "Nombre",
-    "confirm-password": "Confirmar constraseña"
+    "confirm-password": "Confirmar constraseña",
+    "usernameEmail": "Nombre de usuario o email"
   },
   "modal-title": {
     "delete-post": "Eliminar tweet",

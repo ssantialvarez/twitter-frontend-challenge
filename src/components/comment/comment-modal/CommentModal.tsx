@@ -3,7 +3,7 @@ import { Post } from "../../../service";
 import { PostModal } from "../../post-modal/PostModal";
 import AuthorData from "../../tweet/user-post-data/AuthorData";
 import { StyledContainer } from "../../common/Container";
-import { StyledP } from "../../common/text";
+import { StyledP } from "../../common/text/P";
 import { StyledLine } from "../../common/Line";
 import TweetBox from "../../tweet-box/TweetBox";
 import ImageContainer from "../../tweet/tweet-image/ImageContainer";

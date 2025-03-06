@@ -7,7 +7,7 @@ interface ToastContainerProps {
   theme: Theme;
 }
 
-export const StyledToastContainer = styled.div`
+export const StyledToastContainer = styled.div<ToastContainerProps>`
   display: flex;
   padding: 8px 16px;
   align-items: center;

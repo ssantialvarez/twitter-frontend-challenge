@@ -40,7 +40,8 @@
     "password": "Password",
     "email": "Email",
     "name": "Name",
-    "confirm-password": "Confirm password"
+    "confirm-password": "Confirm password",
+    "usernameEmail": "Username or email"
   },
   "modal-title": {
     "delete-post": "Delete tweet",

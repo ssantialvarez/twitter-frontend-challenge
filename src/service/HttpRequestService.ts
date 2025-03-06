@@ -11,7 +11,7 @@ export const axiosInstance = axios.create({
 
 const httpRequestService = {
   signUp: async (data: Partial<SingUpData>) => {
-    const res = await axiosInstance.post('/auth/signup', data);
+    const res = await axiosInstance.post('/auth/signup', {name: data.name, username: data.username, email: data.email, password: data.password});
     if (res.status === 201) {
       axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
       localStorage.setItem("token", `Bearer ${res.data.token}`);
@@ -19,13 +19,20 @@ const httpRequestService = {
     }
   },
   signIn: async (data: SingInData) => {
-    const res = await axiosInstance.post('/auth/login', data);
+  const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.usernameEmail);
+
+  const payload = isEmail
+    ? { email: data.usernameEmail, password: data.password }
+    : { username: data.usernameEmail, password: data.password };
+    
+    const res = await axiosInstance.post('/auth/login', payload);
     if (res.status === 200) {
       axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
       localStorage.setItem("token", `Bearer ${res.data.token}`);
       return true;
     }
   },
+  
   createPost: async (data: PostData) => {
     const res = await axiosInstance.post('/post', data);
     if (res.status === 201) {
@@ -159,7 +166,9 @@ const httpRequestService = {
     if (res.status === 200) {
       return res.data;
     }
+    
   },
+
   isLogged: async () => {
     const res = await axiosInstance.get('/user/me', {
       headers: {

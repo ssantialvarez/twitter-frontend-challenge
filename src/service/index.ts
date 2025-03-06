@@ -6,8 +6,7 @@ export interface SingUpData {
 }
 
 export interface SingInData {
-  username?: string;
-  email?: string;
+  usernameEmail: string;
   password: string;
 }
 
