@@ -8,64 +8,27 @@ import { useHttpRequestService } from "../../../service/HttpRequestService";
 import LabeledInput from "../../../components/labeled-input/LabeledInput";
 import Button from "../../../components/button/Button";
 import { ButtonType } from "../../../components/button/StyledButton";
-import { StyledH3, StyledP } from "../../../components/common/text";
+import { StyledH3 } from "../../../components/common/text";
 import { useMutation } from "@tanstack/react-query";
-import { useFormik } from "formik";
+import { Formik } from "formik";
 import { StyledPError } from "../../../components/common/text/PError";
 
 
-
 const SignUpPage = () => {
-  const [error, setError] = useState(false);
+  const [errorUsername, setErrorUsername] = useState(false);
   const httpRequestService = useHttpRequestService();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
   const mutation = useMutation({
     mutationFn: httpRequestService.signUp,
-    onSuccess: (res) => {
+    onSuccess: () => {
       navigate("/")
     },
     onError: () => {
-      setError(true)
+      setErrorUsername(true)
     }
   })
-
-  const formik = useFormik({
-    initialValues: {
-      username: '',
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: ''
-    },
-    //password: Yup.string().required('Required').matches(/(^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$)/, 'password is too weak. Must contain ...'),
-    validationSchema: Yup.object({
-      name: Yup.string()
-        .max(35, 'Must be 35 characters or less')
-        .required('Required'),
-      username: Yup.string()
-        .max(25, 'Must be 25 characters or less')
-        .matches(/(^[A-Za-z][A-Za-z0-9]*$)/, 'Username must not contain any white-space.')
-        .required('Required'),
-      email: Yup.string().email('Invalid email address').required('Required'),
-      password: Yup.string().min(8, 'Password is too short. Must be 8 characters or more').required('Required'),
-      confirmPassword: Yup.string().required('Required').test(
-        'compare-passwords',
-        'Passwords must be the same.',
-        (value, testContext) => {
-          return value === testContext.parent.password
-        }
-      )
-
-    }),
-    onSubmit: values => {
-      //alert(JSON.stringify(values, null, 2));
-      mutation.mutate(values)
-
-    },
-  });
-
   return (
     <AuthWrapper>
       <div className={"border"}>
@@ -74,13 +37,61 @@ const SignUpPage = () => {
             <img src={logo} alt="Twitter Logo" />
             <StyledH3>{t("title.register")}</StyledH3>
           </div>
+          <Formik
+           validateOnChange={false}
+           validateOnBlur={false}
+           initialValues={{
+            username: '',
+            name: '',
+            email: '',
+            password: '',
+            confirmPassword: ''
+          }}
+          //password: Yup.string().required('Required').matches(/(^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$)/, 'password is too weak. Must contain ...'),
+          validationSchema={Yup.object({
+            name: Yup.string()
+              .max(35, 'Must be 35 characters or less')
+              .required('Required'),
+            username: Yup.string()
+              .max(25, 'Must be 25 characters or less')
+              .matches(/(^[A-Za-z][A-Za-z0-9]*$)/, 'Username must not contain any white-space.')
+              .required('Required').test(
+                'user-exists',
+                'Username already exists.',
+                async (value) => {
+                  return !(await httpRequestService.checksEmailOrUsername(value))
+                }
+              ),
+            email: Yup.string().email('Invalid email address').required('Required').test(
+              'email-exists',
+              'Email has already been taken.',
+              async (value) => {
+                return !(await httpRequestService.checksEmailOrUsername(value))
+              }
+            ),
+            password: Yup.string().min(8, 'Password is too short. Must be 8 characters or more').required('Required'),
+            confirmPassword: Yup.string().required('Required').test(
+              'compare-passwords',
+              'Passwords must be the same.',
+              (value, testContext) => {
+                return value === testContext.parent.password
+              }
+            )
+            })}
+            onSubmit= {values => {
+              //alert(JSON.stringify(values, null, 2));
+              mutation.mutate(values)
+        
+            }}
+          >
+          {formik => ( 
+          
           <form onSubmit={formik.handleSubmit}>
             <div className={"input-container"}>
               <LabeledInput
-                required
                 placeholder={"Enter name..."}
                 title={t("input-params.name")}
-                error={error || (formik.touched.name && formik.errors.name) ? true : false}
+                error={formik.touched.name && formik.errors.name ? true : false}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.name}
@@ -90,11 +101,10 @@ const SignUpPage = () => {
               {formik.touched.name && formik.errors.name ? 
                 <StyledPError>{formik.errors.name}</StyledPError> 
                 : null}
-              <LabeledInput
-                required
+              <LabeledInput                
                 placeholder={"Enter username..."}
                 title={t("input-params.username")}
-                error={error || (formik.touched.username && formik.errors.username) ? true : false}
+                error={errorUsername || (formik.touched.username && formik.errors.username) ? true : false}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.username}
@@ -106,10 +116,9 @@ const SignUpPage = () => {
                 type="email"
                 id="email"
                 name="email"
-                required
                 placeholder={"Enter email..."}
                 title={t("input-params.email")}
-                error={error}
+                error={ formik.touched.password && formik.errors.email ? true : false}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
@@ -119,10 +128,9 @@ const SignUpPage = () => {
                 type="password"
                 id="password"
                 name="password"
-                required
                 placeholder={"Enter password..."}
                 title={t("input-params.password")}
-                error={error}
+                error={formik.touched.password && formik.errors.password ? true : false}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.password}
@@ -133,10 +141,9 @@ const SignUpPage = () => {
                 type="password"
                 id="confirmPassword"
                 name="confirmPassword"
-                required
                 placeholder={"Confirm password..."}
                 title={t("input-params.confirm-password")}
-                error={error}
+                error={formik.touched.confirmPassword && formik.errors.confirmPassword ? true : false}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.confirmPassword}
@@ -158,6 +165,8 @@ const SignUpPage = () => {
               />
             </div>
             </form>
+            )}
+            </Formik>
         </div>
       </div>
     </AuthWrapper>

@@ -35,15 +35,6 @@ const TweetBox = ({parentId, close, mobile, borderless} : TweetBoxProps) => {
     const service = useHttpRequestService()
     const user = useGetMe()
 
-    /*
-    useEffect(() => {
-        handleGetUser().then(r => setUser(r))
-    }, []);
-
-    const handleGetUser = async () => {
-        return await service.me()
-    }
-    */
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setContent(e.target.value);
     };

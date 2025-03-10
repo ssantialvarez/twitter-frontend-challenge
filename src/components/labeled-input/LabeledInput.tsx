@@ -8,7 +8,7 @@ interface InputWithLabelProps {
   type?: "password" | "text" | "email";
   title: string;
   placeholder: string;
-  required: boolean;
+  required?: boolean;
   error?: boolean;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -20,7 +20,7 @@ interface InputWithLabelProps {
 const LabeledInput = ({
   title,
   placeholder,
-  required,
+  required = false,
   error,
   onBlur, 
   onChange,

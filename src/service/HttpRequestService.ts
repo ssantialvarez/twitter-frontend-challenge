@@ -12,11 +12,10 @@ export const axiosInstance = axios.create({
 const httpRequestService = {
   signUp: async (data: Partial<SingUpData>) => {
     const res = await axiosInstance.post('/auth/signup', {name: data.name, username: data.username, email: data.email, password: data.password});
-    if (res.status === 201) {
-      axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
-      localStorage.setItem("token", `Bearer ${res.data.token}`);
-      return true;
-    }
+    
+    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
+    localStorage.setItem("token", `Bearer ${res.data.token}`);
+    return res;
   },
   signIn: async (data: SingInData) => {
   const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.usernameEmail);
@@ -31,6 +30,7 @@ const httpRequestService = {
       localStorage.setItem("token", `Bearer ${res.data.token}`);
       return true;
     }
+    return false;
   },
   
   createPost: async (data: PostData) => {
@@ -80,6 +80,11 @@ const httpRequestService = {
     if (res.status === 200) {
       return res.data;
     }
+  },
+
+  checksEmailOrUsername: async (usernameEmail: string) => {
+    const res = await axiosInstance.get(`/auth/by_email_username/${usernameEmail}`);
+    return res.status === 200;
   },
   
   getPostById: async (id: string) => {
@@ -267,13 +272,15 @@ axiosInstance.interceptors.response.use(function (response) {
 }, function (error) {
   // Any status codes that falls outside the range of 2xx cause this function to trigger
   // Do something with response error
-  console.log(error.response.code)
-  if(error.response.code === 401){
+  const status : number = error.response.status
+  if(status === 401){
+    console.log(status)
     localStorage.removeItem('token')
     window.location.href = "/sign-in";
+    return Promise.reject(error);
   }  
   
-  return Promise.reject 
+  return Promise.resolve(error)
 });
 
 const useHttpRequestService = () => httpRequestService;
