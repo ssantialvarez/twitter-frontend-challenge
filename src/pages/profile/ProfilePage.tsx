@@ -11,6 +11,8 @@ import ProfileFeed from "../../components/feed/ProfileFeed";
 import {StyledContainer} from "../../components/common/Container";
 import {StyledH5} from "../../components/common/text";
 import { useGetMe, useGetProfile } from "../../hooks/useUser";
+import { useToast } from "../../components/toast/ToastContext";
+import { ToastType } from "../../components/toast/Toast";
 
 const ProfilePage = () => {
   //const [profile, setProfile] = useState<User | null>(null);
@@ -24,7 +26,6 @@ const ProfilePage = () => {
   });
   const service = useHttpRequestService()
   const user = useGetMe()
-
   const id = useParams().id as string;
   const profile = useGetProfile(id)
   const navigate = useNavigate();
@@ -51,7 +52,6 @@ const ProfilePage = () => {
       service.unfollowUser(profile!.id).then(async () => {
         setFollowing(false);
         setShowModal(false);
-        //await getProfileData();
       });
     }
   };
@@ -90,36 +90,12 @@ const ProfilePage = () => {
         });
       } else {
         await service.followUser(id);
-        //service.getProfile(id).then((res) => setProfile(res));
+        setFollowing(true);
+        
       }
-      //return await getProfileData();
     }
   };
-  /*
-  const getProfileData = async () => {
-    service
-        .getProfile(id)
-        .then((res) => {
-          setProfile(res);
-          setFollowing(
-              res
-                  ? res?.followers.some((follower: User) => follower.id === user?.id)
-                  : false
-          );
-        })
-        .catch(() => {
-          service
-              .getProfileView(id)
-              .then((res) => {
-                setProfile(res);
-                setFollowing(false);
-              })
-              .catch((error2) => {
-                console.log(error2);
-              });
-        });
-  };
-  */
+  
   return (
       <>
         <StyledContainer

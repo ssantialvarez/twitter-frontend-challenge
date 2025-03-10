@@ -25,22 +25,15 @@ const Tweet = ({post}: TweetProps) => {
   const service = useHttpRequestService();
   const navigate = useNavigate();
   const user = useGetMe()
-  /*
-  useEffect(() => {
-    handleGetUser().then(r => setUser(r))
-  }, []);
-
-  const handleGetUser = async () => {
-    return await service.me()
-  }
-  */
+  
   const getCountByType = (type: string): number => {
-    return actualPost?.reactions?.filter((r) => r.type === type).length ?? 0;
+    console.log(actualPost.reactions)
+    return actualPost?.reactions?.filter((r) => r.reaction === type).length ?? 0;
   };
 
   const handleReaction = async (type: string) => {
     const reacted = actualPost.reactions.find(
-        (r) => r.type === type && r.userId === user?.id
+        (r) => r.reaction === type && r.userId === user?.id
     );
     if (reacted) {
       await service.deleteReaction(reacted.id);
@@ -53,7 +46,7 @@ const Tweet = ({post}: TweetProps) => {
 
   const hasReactedByType = (type: string): boolean => {
     return actualPost.reactions.some(
-        (r) => r.type === type && r.userId === user?.id
+        (r) => r.reaction === type && r.userId === user?.id
     );
   };
 

@@ -30,7 +30,7 @@ export interface Post {
 
 export interface Reaction {
   id: string;
-  type: string;
+  reaction: string;
   createdAt: Date;
   userId: string;
   postId: string;

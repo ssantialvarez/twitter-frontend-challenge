@@ -34,7 +34,11 @@ const httpRequestService = {
   },
   
   createPost: async (data: PostData) => {
-    const res = await axiosInstance.post('/post', data);
+    let res
+    if(!data.parentId)
+      res = await axiosInstance.post('/post', data);
+    else
+      res = await axiosInstance.post(`/comment/${data.parentId}`, {content: data.content, images: data.images})
     if (res.status === 201) {
       const { upload } = S3Service;
       for (const imageUrl of res.data.images) {
@@ -95,9 +99,7 @@ const httpRequestService = {
   },
   createReaction: async (postId: string, reaction: string) => {
     const res = await axiosInstance.post(
-      `/reaction/${postId}`,
-      { type: reaction }
-    );
+      `/reaction/${postId}?reaction=${reaction}`);
     if (res.status === 201) {
       return res.data;
     }
@@ -110,7 +112,7 @@ const httpRequestService = {
   },
   followUser: async (userId: string) => {
     const res = await axiosInstance.post(
-      `/follow/${userId}`,
+      `/follower/follow/${userId}`,
       {}
     );
     if (res.status === 201) {
@@ -118,7 +120,7 @@ const httpRequestService = {
     }
   },
   unfollowUser: async (userId: string) => {
-    const res = await axiosInstance.delete(`/follow/${userId}`);
+    const res = await axiosInstance.post(`/follower/unfollow/${userId}`);
     if (res.status === 200) {
       return res.data;
     }

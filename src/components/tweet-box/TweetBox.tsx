@@ -40,11 +40,12 @@ const TweetBox = ({parentId, close, mobile, borderless} : TweetBoxProps) => {
     };
     const handleSubmit = async () => {
         try {
+            await httpService.createPost({content, images, parentId})
             setContent("");
             setImages([]);
             setImagesPreview([]);
             dispatch(setLength(length + 1));
-            const posts = await httpService.getPosts(`${length + 1},,${query}`);
+            const posts = await httpService.getPosts(query);
             dispatch(updateFeed(posts));
             close && close();
         } catch (e) {
