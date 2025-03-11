@@ -12,6 +12,7 @@ interface FeedProps {
 const Feed = ({ posts, loading }: FeedProps) => {
   return (
     <StyledContainer width={"100%"} alignItems={"center"}>
+      {posts.length === 0 && <p>Uups...nothing down here...</p>}
       {posts
         .filter((post, index, self) => {
           return self.findIndex((p) => p.id === post.id) === index;

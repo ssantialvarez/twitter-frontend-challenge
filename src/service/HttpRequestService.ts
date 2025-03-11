@@ -128,8 +128,13 @@ const httpRequestService = {
   searchUsers: async (username: string, limit: number, skip: number) => {
     try {
       const cancelToken = axios.CancelToken.source();
+      const params = new URLSearchParams({
+        limit: limit.toString(),
+        skip: skip.toString(),
+      });
 
-      const response = await axiosInstance.get('/user/search',{
+
+      const response = await axiosInstance.get(`/user/by_username/${username}?${params.toString()}`,{
         params: {
           username,
           limit,
