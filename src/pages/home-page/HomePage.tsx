@@ -8,24 +8,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { StyledUserSuggestionContainer } from "./UserSuggestionContainer";
 
 const HomePage = () => {
-  const dispatch = useAppDispatch();
-  const query = useAppSelector((state) => state.user.query);
-  const service = useHttpRequestService();
-
-  const handleSetUser = async () => {
-    try {
-      const data = await service.getPosts(query);
-      dispatch(updateFeed(data));
-    } catch (e) {
-      //navigate("/sign-in");
-      console.log(e)
-    }
-  };
-
-  useEffect(() => {
-    handleSetUser().then();
-  }, []);
-
+  
   return (
     <>
       <ContentContainer />

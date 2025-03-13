@@ -7,7 +7,7 @@ const ProfileFeed = () => {
 
   return (
     <>
-      <Feed posts={posts} loading={loading} />
+      <Feed posts={posts} loading={loading} fetchNextPage={() => {}} />
     </>
   );
 };

@@ -45,7 +45,7 @@ const TweetBox = ({parentId, close, mobile, borderless} : TweetBoxProps) => {
             setImages([]);
             setImagesPreview([]);
             dispatch(setLength(length + 1));
-            const posts = await httpService.getPosts(query);
+            const posts = await httpService.getPosts();
             dispatch(updateFeed(posts));
             close && close();
         } catch (e) {

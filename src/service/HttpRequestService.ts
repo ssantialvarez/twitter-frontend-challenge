@@ -59,8 +59,20 @@ const httpRequestService = {
       return res.data;
     }
   },
-  getPosts: async (query: string) => {
-    const res = await axiosInstance.get(`/post/${query}`);
+  getPosts: async (limit?: number, nextCursor?: string, lastCursor?: string) => {
+    const query = new URLSearchParams({
+      ...(limit && { limit: limit.toString() }),
+      ...(nextCursor && { nextCursor }),
+      ...(lastCursor && { lastCursor })
+    }).toString();
+    const res = await axiosInstance.get(`/post/?${query}`);
+    if (res.status === 200) {
+      return res.data;
+    }
+  },
+
+  getPostsFollowing: async () => {
+    const res = await axiosInstance.get(`/post/following`);
     if (res.status === 200) {
       return res.data.posts;
     }

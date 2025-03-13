@@ -1,26 +1,43 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Post } from "../../service";
 import { StyledContainer } from "../common/Container";
 import Tweet from "../tweet/Tweet";
 import Loader from "../loader/Loader";
+import { useInView } from "react-intersection-observer";
+import { FetchNextPageOptions, InfiniteData, InfiniteQueryObserverResult } from "@tanstack/react-query";
 
 interface FeedProps {
   posts: Post[];
   loading: boolean;
+  fetchNextPage: ((options?: FetchNextPageOptions) => Promise<InfiniteQueryObserverResult<InfiniteData<any, unknown>, Error>>) | (() => void);
+  hasNextPage?: boolean;
 }
 
-const Feed = ({ posts, loading }: FeedProps) => {
+const Feed = ({ posts, loading, fetchNextPage, hasNextPage }: FeedProps) => {
+  const { ref, inView } = useInView()
+  
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage()
+    }
+  }, [fetchNextPage, inView])
+
   return (
     <StyledContainer width={"100%"} alignItems={"center"}>
       {posts.length === 0 && <p>Uups...nothing down here...</p>}
       {posts
-        .filter((post, index, self) => {
-          return self.findIndex((p) => p.id === post.id) === index;
-        })
         .map((post: Post) => (
           <Tweet key={post.id} post={post} />
         ))}
       {loading && <Loader />}
+      {hasNextPage && (
+          <div className="text-center mt-6 p-2">
+            <button ref={ref}>
+              <Loader/>
+            </button>        
+          </div>
+        )}
+
     </StyledContainer>
   );
 };

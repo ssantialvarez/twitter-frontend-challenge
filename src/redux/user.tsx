@@ -25,10 +25,6 @@ const userSlice = createSlice({
     setLength: (state, action) => {
       state.length = action.payload;
     },
-    setQuery: (state, action) => {
-      state.query = action.payload;
-    },
-
     setChat: (state, action) => {
       state.currentChat = action.payload;
     },
@@ -41,7 +37,7 @@ const userSlice = createSlice({
   },
 });
 
-export const {updateFeed, setLength, setQuery, setChat, addMessage} =
+export const {updateFeed, setLength, setChat, addMessage} =
     userSlice.actions;
 
 export default userSlice.reducer;
