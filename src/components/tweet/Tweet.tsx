@@ -27,7 +27,7 @@ const Tweet = ({post}: TweetProps) => {
   const user = useGetMe()
   
   const getCountByType = (type: string): number => {
-    console.log(actualPost.reactions)
+    
     return actualPost?.reactions?.filter((r) => r.reaction === type).length ?? 0;
   };
 

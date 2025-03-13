@@ -19,18 +19,8 @@ interface ProfileLogoutPromptProps {
 
 const ProfileLogoutPrompt = ({margin, direction}: ProfileLogoutPromptProps) => {
     const [logoutOpen, setLogoutOpen] = useState(false);
-    const service = useHttpRequestService()
     const user = useGetMe()
 
-    /*
-    useEffect(() => {
-        handleGetUser().then(r => setUser(r))
-    }, []);
-
-    const handleGetUser = async () => {
-        return await service.me()
-    }
-    */
 
     const handleLogout = () => {
         setLogoutOpen(!logoutOpen);
@@ -39,11 +29,7 @@ const ProfileLogoutPrompt = ({margin, direction}: ProfileLogoutPromptProps) => {
     const handleButtonClick = (event: React.MouseEvent) => {
         event.stopPropagation();
     };
-
-    /*if(user.profilePicture)
-        user.profilePicture = 'https://twitter-backend-demo-a617f6da-58a7-4888-b927-88eaae142243.s3.us-east-2.amazonaws.com/' + user.profilePicture;
-    */
-    console.log(user?.profilePicture)
+    //console.log(user?.profilePicture)
 
     return (
         <StyledContainer

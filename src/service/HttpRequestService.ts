@@ -74,7 +74,6 @@ const httpRequestService = {
       },
     });
     if (res.status === 200) {
-      console.log(res.data)
       return res.data;
     }
   },
@@ -106,6 +105,24 @@ const httpRequestService = {
   },
   deleteReaction: async (reactionId: string) => {
     const res = await axiosInstance.delete(`/reaction/${reactionId}`);
+    if (res.status === 200) {
+      return res.data;
+    }
+  },
+  getFollowers: async () => {
+    const res = await axiosInstance.get(
+      '/follower/followers',
+      {}
+    );
+    if (res.status === 200) {
+      return res.data;
+    }
+  },
+  getFollowed: async () => {
+    const res = await axiosInstance.get(
+      '/follower/followed',
+      {}
+    );
     if (res.status === 200) {
       return res.data;
     }

@@ -9,7 +9,7 @@
   "navbar": {
     "home": "Principal",
     "explore": "Explorar",
-    "message": "Mensajes",
+    "messages": "Mensajes",
     "profile": "Perfil"
   },
   "suggestion": {
@@ -60,5 +60,8 @@
   "title": {
     "login": "Ingresa tu correo electrónico o @nombre_de_usuario.",
     "register": "Crea tu cuenta"
+  },
+  "chat": {
+    "placeholder": "Escribe un mensaje"  
   }
 }

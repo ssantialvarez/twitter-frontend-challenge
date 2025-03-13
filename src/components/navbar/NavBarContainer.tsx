@@ -13,8 +13,7 @@ export const StyledNavBarContainer = styled.div`
     z-index: 1;
     .icon {
         display: flex;
-        width: 32px;
-        height: 32px;
+        width: 48px;
         flex-shrink: 0;
         border-radius: 32px;
     }

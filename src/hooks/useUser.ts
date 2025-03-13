@@ -24,6 +24,24 @@ export const useGetRecommendedUsers = (limit: number, skip: number) => {
   return data
 }
 
+export const useGetFollowers = () => {
+  const { data } = useSuspenseQuery({
+    queryKey: ["followers"], 
+    queryFn:  () => httpService.service.getFollowers(),
+    staleTime: staleTime, 
+  });
+  return data
+}
+
+export const useGetFollowed = () => {
+  const { data } = useSuspenseQuery({
+    queryKey: ["followed"], 
+    queryFn:  () => httpService.service.getFollowed(),
+    staleTime: staleTime, 
+  });
+  return data
+}
+
 export const useGetProfile = (id: string) => {
   const { data } = useSuspenseQuery({
     queryKey: ["profile", id], 
