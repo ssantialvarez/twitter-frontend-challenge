@@ -19,24 +19,16 @@ import {StyledP} from "../common/text";
 import {useHttpRequestService} from "../../service/HttpRequestService";
 import {User} from "../../service";
 import ProfileLogoutPrompt from "../profile-logout/ProfileLogoutPrompt";
+import { useGetMe } from "../../hooks/useUser";
 
 const NavBar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [tweetModalOpen, setTweetModalOpen] = useState(false);
   const [logoutOpen, setLogoutOpen] = useState(false);
-  const service = useHttpRequestService()
-  const [user, setUser] = useState<User>()
+  const user = useGetMe()
   const {t} = useTranslation();
-
-  useEffect(() => {
-    handleGetUser().then(r => setUser(r))
-  }, []);
-
-  const handleGetUser = async () => {
-    return await service.me()
-  }
-
+  
   const handleAvatarClick = () => {
     if (window.innerWidth < 1265) {
       handleLogout();
@@ -75,6 +67,15 @@ const NavBar = () => {
                 icon={IconType.PROFILE}
                 selectedIcon={IconType.ACTIVE_PROFILE}
                 active={location.pathname === `/profile/${user?.id}`}
+            />
+            <NavItem
+                title={t("navbar.messages")}
+                onClick={() => {
+                  navigate('/chat');
+                }}
+                icon={IconType.MESSAGE}
+                selectedIcon={IconType.ACTIVE_MESSAGE}
+                active={location.pathname === '/chat'}
             />
             <StyledTweetButton
                 onClick={() => navigate("/compose/tweet")

@@ -5,6 +5,8 @@ import { useHttpRequestService } from "../../../../../service/HttpRequestService
 import { useTranslation } from "react-i18next";
 import { useAppDispatch } from "../../../../../redux/hooks";
 import { StyledTabBarContainer } from "./TabBarContainer";
+import { useToast } from "../../../../../components/toast/ToastContext";
+import { ToastType } from "../../../../../components/toast/Toast";
 
 const TabBar = () => {
   const [activeFirstPage, setActiveFirstPage] = useState(true);
@@ -13,6 +15,7 @@ const TabBar = () => {
   const { t } = useTranslation();
 
   const handleClick = async (value: boolean, query: string) => {
+    
     setActiveFirstPage(value);
     dispatch(setQuery(query));
     const data = await service.getPosts(query).catch((e) => {

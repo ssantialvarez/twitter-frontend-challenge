@@ -8,6 +8,8 @@
   },
   "navbar": {
     "home": "Home",
+    "explore": "Explore",
+    "messages": "Messages",
     "profile": "Profile"
   },
   "suggestion": {
@@ -40,7 +42,8 @@
     "password": "Password",
     "email": "Email",
     "name": "Name",
-    "confirm-password": "Confirm password"
+    "confirm-password": "Confirm password",
+    "usernameEmail": "Username or email"
   },
   "modal-title": {
     "delete-post": "Delete tweet",
@@ -57,5 +60,9 @@
   "title": {
     "login": "Enter your email or username",
     "register": "Create your account"
+  },
+  "chat": {
+    "placeholder": "Start a new message"  
   }
+
 }

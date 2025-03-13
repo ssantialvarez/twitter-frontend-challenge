@@ -35,7 +35,7 @@ const RecommendationPage = () => {
       <StyledContainer padding={"16px"} maxHeight={"53px"}>
         <StyledH5>{t("header.connect")}</StyledH5>
       </StyledContainer>
-      <StyledScrollableContainer padding={"8px"} gap={"16px"}>
+      <StyledScrollableContainer max-height={"600px"} padding={"8px"} gap={"16px"}>
         {users.map((user, index) => {
           if (users.length === index + 1) {
             return (

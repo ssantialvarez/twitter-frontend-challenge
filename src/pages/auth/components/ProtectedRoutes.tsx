@@ -7,7 +7,6 @@ import Loader from "../../../components/loader/Loader";
 
 
 
-
 const ProtectedRoutes = () => {
 	const [status, setStatus] = useState<number | null>(null);
 	const [token, setToken] = useState(() => localStorage.getItem("token"));
@@ -20,13 +19,9 @@ const ProtectedRoutes = () => {
 		}
 
 		const verifyUser = async () => {
-			try {
-				await service.isLogged();
-				setStatus(200);
-			} catch (error) {
-				console.error("Error verifying user:", error);
-				setStatus(401);
-			}
+			
+			setStatus(await service.isLogged() ? 200 : 401)
+			
 		};
 
 		verifyUser();

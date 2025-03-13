@@ -11,6 +11,7 @@ import TweetPage from "../../pages/create-tweet-page/TweetPage";
 import CommentPage from "../../pages/create-comment-page/CommentPage";
 import PostPage from "../../pages/post-page/PostPage";
 import ProtectedRoutes from "../../pages/auth/components/ProtectedRoutes";
+import ChatPage from "../../pages/chat/ChatPage";
 
 
 export const ROUTER = createBrowserRouter([
@@ -29,6 +30,14 @@ export const ROUTER = createBrowserRouter([
       {
         path: "/",
         element: <HomePage />,
+      },
+      {
+        path: "/chat",
+        element: <ChatPage />,
+      },
+      {
+        path: "/chat/:id",
+        element: <ChatPage />,
       },
       {
         path: "/recommendations",

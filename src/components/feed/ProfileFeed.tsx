@@ -1,6 +1,6 @@
 import React from "react";
 import Feed from "./Feed";
-import { useGetProfilePosts } from "../../hooks/useGetProfilePosts";
+import { useGetProfilePosts } from "../../hooks/useUser";
 
 const ProfileFeed = () => {
   const { posts, loading } = useGetProfilePosts();

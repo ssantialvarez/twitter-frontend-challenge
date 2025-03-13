@@ -4,6 +4,7 @@ import { AlertIcon } from "../icon/Icon";
 
 export enum ToastType {
   ALERT = "ALERT",
+  SUCCESS = "SUCCESS"
 }
 
 interface ToastProps {
@@ -14,9 +15,9 @@ interface ToastProps {
 
 const Toast = ({ message, type, show }: ToastProps) => {
   const [isShown, setIsShown] = useState<boolean>(show ?? true);
-
   const iconMap = {
     [ToastType.ALERT]: <AlertIcon />,
+    [ToastType.SUCCESS]: <AlertIcon />,
   };
 
   const toastIcon = iconMap[type] || null;

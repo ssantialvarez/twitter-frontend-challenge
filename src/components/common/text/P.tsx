@@ -6,7 +6,7 @@ interface PProps {
   theme: Theme;
 }
 
-export const StyledP = styled.p`
+export const StyledP = styled.p<PProps>`
   color: ${(props: PProps) =>
     props.primary ? props.theme.text.title : props.theme.text.default};
 

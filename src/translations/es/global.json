@@ -9,7 +9,7 @@
   "navbar": {
     "home": "Principal",
     "explore": "Explorar",
-    "message": "Mensajes",
+    "messages": "Mensajes",
     "profile": "Perfil"
   },
   "suggestion": {
@@ -42,7 +42,8 @@
     "password": "Contraseña",
     "email": "Email",
     "name": "Nombre",
-    "confirm-password": "Confirmar constraseña"
+    "confirm-password": "Confirmar constraseña",
+    "usernameEmail": "Nombre de usuario o email"
   },
   "modal-title": {
     "delete-post": "Eliminar tweet",
@@ -59,5 +60,8 @@
   "title": {
     "login": "Ingresa tu correo electrónico o @nombre_de_usuario.",
     "register": "Crea tu cuenta"
+  },
+  "chat": {
+    "placeholder": "Escribe un mensaje"  
   }
 }

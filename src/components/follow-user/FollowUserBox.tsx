@@ -4,8 +4,9 @@ import {useHttpRequestService} from "../../service/HttpRequestService";
 import UserDataBox from "../user-data-box/UserDataBox";
 import {useTranslation} from "react-i18next";
 import {ButtonType} from "../button/StyledButton";
-import "./FollowUserBox.css";
 import {Author, User} from "../../service";
+import { useGetMe } from "../../hooks/useUser";
+import { StyledBoxContainer } from "./BoxContainer";
 
 interface FollowUserBoxProps {
   profilePicture?: string;
@@ -22,22 +23,15 @@ const FollowUserBox = ({
                        }: FollowUserBoxProps) => {
   const {t} = useTranslation();
   const service = useHttpRequestService()
-  const [user, setUser] = useState<User>()
-
-
-  useEffect(() => {
-    handleGetUser().then(r => {
-      setUser(r)
-      setIsFollowing(r?.following.some((f: Author) => f.id === id))
-    })
-  }, []);
-
-  const handleGetUser = async () => {
-    return await service.me()
-  }
-
+  const user = useGetMe()
+  
   const [isFollowing, setIsFollowing] = useState(false);
-
+  useEffect(() => {
+    if (user?.following) {
+      setIsFollowing(user.following.some((f: Author) => f.id === id));
+    }
+  }, [user.following, id]);
+  
   const handleFollow = async () => {
     if (isFollowing) {
       await service.unfollowUser(id);
@@ -48,7 +42,7 @@ const FollowUserBox = ({
   };
 
   return (
-      <div className="box-container">
+      <StyledBoxContainer>
         <UserDataBox
             id={id}
             name={name!}
@@ -61,7 +55,7 @@ const FollowUserBox = ({
             size={"SMALL"}
             onClick={handleFollow}
         />
-      </div>
+      </StyledBoxContainer>
   );
 };
 

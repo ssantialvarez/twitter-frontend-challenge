@@ -10,9 +10,12 @@ import Button from "../../components/button/Button";
 import ProfileFeed from "../../components/feed/ProfileFeed";
 import {StyledContainer} from "../../components/common/Container";
 import {StyledH5} from "../../components/common/text";
+import { useGetMe, useGetProfile } from "../../hooks/useUser";
+import { useToast } from "../../components/toast/ToastContext";
+import { ToastType } from "../../components/toast/Toast";
 
 const ProfilePage = () => {
-  const [profile, setProfile] = useState<User | null>(null);
+  //const [profile, setProfile] = useState<User | null>(null);
   const [following, setFollowing] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [modalValues, setModalValues] = useState({
@@ -22,21 +25,14 @@ const ProfilePage = () => {
     buttonText: "",
   });
   const service = useHttpRequestService()
-  const [user, setUser] = useState<User>()
-
-  const id = useParams().id;
+  const user = useGetMe()
+  const id = useParams().id as string;
+  const profile = useGetProfile(id)
   const navigate = useNavigate();
 
   const {t} = useTranslation();
 
-
-  useEffect(() => {
-    handleGetUser().then(r => setUser(r))
-  }, []);
-
-  const handleGetUser = async () => {
-    return await service.me()
-  }
+  
 
   const handleButtonType = (): { component: ButtonType; text: string } => {
     if (profile?.id === user?.id)
@@ -56,15 +52,22 @@ const ProfilePage = () => {
       service.unfollowUser(profile!.id).then(async () => {
         setFollowing(false);
         setShowModal(false);
-        await getProfileData();
       });
     }
   };
-
+  
   useEffect(() => {
-    getProfileData().then();
+    if(profile.id === user.id)
+      setFollowing(true)
+    else{
+      setFollowing(
+        profile
+            ? profile?.followers.some((follower: string) => follower === user?.id)
+            : false
+    );
+    }
   }, [id]);
-
+  
   if (!id) return null;
 
   const handleButtonAction = async () => {
@@ -87,36 +90,12 @@ const ProfilePage = () => {
         });
       } else {
         await service.followUser(id);
-        service.getProfile(id).then((res) => setProfile(res));
+        setFollowing(true);
+        
       }
-      return await getProfileData();
     }
   };
-
-  const getProfileData = async () => {
-    service
-        .getProfile(id)
-        .then((res) => {
-          setProfile(res);
-          setFollowing(
-              res
-                  ? res?.followers.some((follower: User) => follower.id === user?.id)
-                  : false
-          );
-        })
-        .catch(() => {
-          service
-              .getProfileView(id)
-              .then((res) => {
-                setProfile(res);
-                setFollowing(false);
-              })
-              .catch((error2) => {
-                console.log(error2);
-              });
-        });
-  };
-
+  
   return (
       <>
         <StyledContainer
@@ -150,7 +129,7 @@ const ProfilePage = () => {
                   </StyledContainer>
                 </StyledContainer>
                 <StyledContainer width={"100%"}>
-                  {profile.followers ? (
+                  {(following || profile.public) ? (
                       <ProfileFeed/>
                   ) : (
                       <StyledH5>Private account</StyledH5>

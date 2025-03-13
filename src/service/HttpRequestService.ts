@@ -1,34 +1,44 @@
 import type { PostData, SingInData, SingUpData } from "./index";
 import axios from "axios";
 import { S3Service } from "./S3Service";
-import { useNavigate } from "react-router-dom";
 
 const url =
   process.env.REACT_APP_API_URL || "http://localhost:8080/api";
 
-const axiosInstance = axios.create({
+export const axiosInstance = axios.create({
   baseURL:url
 })
 
 const httpRequestService = {
   signUp: async (data: Partial<SingUpData>) => {
-    const res = await axiosInstance.post('/auth/signup', data);
-    if (res.status === 201) {
-      axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
-      localStorage.setItem("token", `Bearer ${res.data.token}`);
-      return true;
-    }
+    const res = await axiosInstance.post('/auth/signup', {name: data.name, username: data.username, email: data.email, password: data.password});
+    
+    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
+    localStorage.setItem("token", `Bearer ${res.data.token}`);
+    return res;
   },
   signIn: async (data: SingInData) => {
-    const res = await axiosInstance.post('/auth/login', data);
+  const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.usernameEmail);
+
+  const payload = isEmail
+    ? { email: data.usernameEmail, password: data.password }
+    : { username: data.usernameEmail, password: data.password };
+    
+    const res = await axiosInstance.post('/auth/login', payload);
     if (res.status === 200) {
       axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
       localStorage.setItem("token", `Bearer ${res.data.token}`);
       return true;
     }
+    return false;
   },
+  
   createPost: async (data: PostData) => {
-    const res = await axiosInstance.post('/post', data);
+    let res
+    if(!data.parentId)
+      res = await axiosInstance.post('/post', data);
+    else
+      res = await axiosInstance.post(`/comment/${data.parentId}`, {content: data.content, images: data.images})
     if (res.status === 201) {
       const { upload } = S3Service;
       for (const imageUrl of res.data.images) {
@@ -67,11 +77,17 @@ const httpRequestService = {
       return res.data;
     }
   },
+
   me: async () => {
     const res = await axiosInstance.get('/user/me');
     if (res.status === 200) {
       return res.data;
     }
+  },
+
+  checksEmailOrUsername: async (usernameEmail: string) => {
+    const res = await axiosInstance.get(`/auth/by_email_username/${usernameEmail}`);
+    return res.status === 200;
   },
   
   getPostById: async (id: string) => {
@@ -82,9 +98,7 @@ const httpRequestService = {
   },
   createReaction: async (postId: string, reaction: string) => {
     const res = await axiosInstance.post(
-      `/reaction/${postId}`,
-      { type: reaction }
-    );
+      `/reaction/${postId}?reaction=${reaction}`);
     if (res.status === 201) {
       return res.data;
     }
@@ -95,9 +109,27 @@ const httpRequestService = {
       return res.data;
     }
   },
+  getFollowers: async () => {
+    const res = await axiosInstance.get(
+      '/follower/followers',
+      {}
+    );
+    if (res.status === 200) {
+      return res.data;
+    }
+  },
+  getFollowed: async () => {
+    const res = await axiosInstance.get(
+      '/follower/followed',
+      {}
+    );
+    if (res.status === 200) {
+      return res.data;
+    }
+  },
   followUser: async (userId: string) => {
     const res = await axiosInstance.post(
-      `/follow/${userId}`,
+      `/follower/follow/${userId}`,
       {}
     );
     if (res.status === 201) {
@@ -105,7 +137,7 @@ const httpRequestService = {
     }
   },
   unfollowUser: async (userId: string) => {
-    const res = await axiosInstance.delete(`/follow/${userId}`);
+    const res = await axiosInstance.post(`/follower/unfollow/${userId}`);
     if (res.status === 200) {
       return res.data;
     }
@@ -113,8 +145,13 @@ const httpRequestService = {
   searchUsers: async (username: string, limit: number, skip: number) => {
     try {
       const cancelToken = axios.CancelToken.source();
+      const params = new URLSearchParams({
+        limit: limit.toString(),
+        skip: skip.toString(),
+      });
 
-      const response = await axiosInstance.get('/user/search',{
+
+      const response = await axiosInstance.get(`/user/by_username/${username}?${params.toString()}`,{
         params: {
           username,
           limit,
@@ -158,7 +195,9 @@ const httpRequestService = {
     if (res.status === 200) {
       return res.data;
     }
+    
   },
+
   isLogged: async () => {
     const res = await axiosInstance.get('/user/me', {
       headers: {
@@ -257,11 +296,22 @@ axiosInstance.interceptors.response.use(function (response) {
 }, function (error) {
   // Any status codes that falls outside the range of 2xx cause this function to trigger
   // Do something with response error
-  localStorage.removeItem('token')
-  window.location.href = "/sign-in"; 
+  const status : number = error.response.status
+  if(status === 401){
+    console.log(status)
+    localStorage.removeItem('token')
+    window.location.href = "/sign-in";
+    return Promise.reject(error);
+  }  
+  
+  return Promise.resolve(error)
 });
 
 const useHttpRequestService = () => httpRequestService;
 
+// For class component (remove when unused)
+class HttpService {
+  service = httpRequestService;
+}
 
-export { useHttpRequestService };
+export { useHttpRequestService, HttpService };

@@ -2,26 +2,36 @@ import React, { ChangeEvent, useRef, useState } from "react";
 import { StyledInputContainer } from "./InputContainer";
 import { StyledInputTitle } from "./InputTitle";
 import { StyledInputElement } from "./StyledInputElement";
+import { Eye, EyeOff } from "lucide-react";
 
 interface InputWithLabelProps {
-  type?: "password" | "text";
+  type?: "password" | "text" | "email";
   title: string;
   placeholder: string;
-  required: boolean;
+  required?: boolean;
   error?: boolean;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  value?: string;
+  name?: string;
+  id?: string;
 }
 
 const LabeledInput = ({
   title,
   placeholder,
-  required,
+  required = false,
   error,
+  onBlur, 
   onChange,
+  value, 
+  name,
+  id,
   type = "text",
 }: InputWithLabelProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [focus, setFocus] = useState(false);
+  const [reveal, setReveal] = useState(false)
 
   const handleFocus = () => {
     setFocus(true);
@@ -37,6 +47,10 @@ const LabeledInput = ({
     }
   };
 
+  const handleClickButton = () => {
+    setReveal(!reveal)
+  };
+  
   return (
     <StyledInputContainer
       className={`${error ? "error" : ""}`}
@@ -47,16 +61,27 @@ const LabeledInput = ({
       >
         {title}
       </StyledInputTitle>
-      <StyledInputElement
-        type={type}
-        required={required}
-        placeholder={placeholder}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        onChange={onChange}
-        className={error ? "error" : ""}
-        ref={inputRef}
-      />
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <StyledInputElement
+          type={reveal ? "text" : type}
+          id={id}
+          name={name}
+          required={required}
+          placeholder={placeholder}
+          onFocus={handleFocus}
+          onBlur={onBlur ?? handleBlur}
+          onChange={onChange}
+          value={value}
+          className={error ? "error" : ""}
+          ref={inputRef}
+        />
+        {type === "password" ? 
+        (reveal ? 
+        <EyeOff onClick={handleClickButton} className="cursor-pointer w-6 h-6 text-black" /> : 
+        <Eye onClick={handleClickButton} className="cursor-pointer w-6 h-6 text-black" />) 
+        : null}
+      </div>
+    
     </StyledInputContainer>
   );
 };
