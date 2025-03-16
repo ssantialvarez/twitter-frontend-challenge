@@ -7,8 +7,11 @@ import TweetBox from "../../components/tweet-box/TweetBox";
 import { StyledH5 } from "../../components/common/text";
 import { StyledFeedContainer } from "../home-page/components/contentContainer/FeedContainer";
 import CommentFeed from "../../components/feed/CommentFeed";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Post } from "../../service";
+import { StyledIconContainer } from "../../components/navbar/IconContainer";
+import { BackArrowIcon, LogoIcon } from "../../components/icon/Icon";
+import { StyledNavItemContainer } from "../../components/navbar/navItem/NavItemContainer";
 
 const PostPage = () => {
     const [post, setPost] = useState<Post | undefined>(undefined);
@@ -30,10 +33,24 @@ const PostPage = () => {
     return (
       <StyledContainer borderRight={"1px solid #ebeef0"}>
         <StyledContainer
-          padding={"16px"}
+          padding={"8px"}
           borderBottom={"1px solid #ebeef0"}
           maxHeight={"53px"}
+          flexDirection="row"
+          alignItems="start"
         >
+          <StyledContainer 
+            width={"30px"} 
+            height={"30px"} 
+            paddingRight={"4px"} 
+            borderRadius={"50%"} 
+            alignItems={"center"} 
+            justifyContent={"center"} 
+            hoverable>
+            <Link  to={'/'}>
+              <BackArrowIcon />
+            </Link>
+          </StyledContainer>
           <StyledH5>Tweet</StyledH5>
         </StyledContainer>
         <StyledFeedContainer>

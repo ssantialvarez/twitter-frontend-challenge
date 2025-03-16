@@ -32,8 +32,9 @@ const TweetImage = ({
     [`${borderRadius} ${borderRadius} ${borderRadius} ${borderRadius}`],
     [`${borderRadius} 0% 0% ${borderRadius}`, `0% ${borderRadius} ${borderRadius} 0%`],
     [`${borderRadius} 0% 0% 0%`, `0% ${borderRadius} 0% 0%`, `0% 0% ${borderRadius} ${borderRadius}`],
-    [`${borderRadius} 0% 0% 0%`, `0% ${borderRadius} 0% 0%`, `0% 0% 0% ${borderRadius}", "0% 0% ${borderRadius} 0%`]
+    [`${borderRadius} 0% 0% 0%`, `0% ${borderRadius} 0% 0%`, `0% 0% 0% ${borderRadius}`, `0% 0% ${borderRadius} 0%`]
   ];
+
 
   return (
     <>

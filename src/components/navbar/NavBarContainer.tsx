@@ -11,6 +11,7 @@ export const StyledNavBarContainer = styled.div`
     border-right: 1px solid var(--grayscale-container-line, #f0f3f4);
     box-sizing: border-box;
     z-index: 1;
+    
     .icon {
         display: flex;
         width: 48px;

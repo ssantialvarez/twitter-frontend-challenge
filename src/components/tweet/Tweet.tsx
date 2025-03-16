@@ -16,9 +16,10 @@ import { useGetMe } from "../../hooks/useUser";
 
 interface TweetProps {
   post: Post;
+  hoverable?: boolean;
 }
 
-const Tweet = ({post}: TweetProps) => {
+const Tweet = ({post, hoverable=false}: TweetProps) => {
   const [actualPost, setActualPost] = useState<Post>(post);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [showCommentModal, setShowCommentModal] = useState<boolean>(false);
@@ -51,7 +52,7 @@ const Tweet = ({post}: TweetProps) => {
   };
 
   return (
-      <StyledTweetContainer>
+      <StyledTweetContainer hoverable={hoverable} onClick={() => navigate(`/post/${post.id}`)}>
         <StyledContainer
             style={{width: "100%"}}
             flexDirection={"row"}
@@ -83,14 +84,13 @@ const Tweet = ({post}: TweetProps) => {
               </>
           )}
         </StyledContainer>
-        <StyledContainer onClick={() => navigate(`/post/${post.id}`)}>
+        <StyledContainer >
           <p>{post.content}</p>
-        </StyledContainer>
-        {post.images && post.images!.length > 0 && (
-            <StyledContainer padding={"0 0 0 8%"}>
+          {post.images && post.images!.length > 0 && (
               <ImageContainer images={post.images}/>
-            </StyledContainer>
-        )}
+          )}
+        </StyledContainer>
+        
         <StyledReactionsContainer>
           <Reaction
               img={IconType.CHAT}

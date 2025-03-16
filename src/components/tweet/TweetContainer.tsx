@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-export const StyledTweetContainer = styled.div`
+interface StyledTweetContainerProps {
+  hoverable?: boolean;
+}
+
+export const StyledTweetContainer = styled.div<StyledTweetContainerProps>`
   display: flex;
   width: 100%;
   padding: 16px;
@@ -13,7 +17,6 @@ export const StyledTweetContainer = styled.div`
 
   p {
     color: ${(props) => props.theme.colors.black};
-    /* Body-1 */
     font-size: 15px;
     font-family: "Manrope", sans-serif;
     line-height: 110%;
@@ -22,4 +25,13 @@ export const StyledTweetContainer = styled.div`
     margin-bottom: 0;
     margin-top: 0;
   }
+
+  ${({ hoverable, theme }) =>
+    hoverable &&
+    `
+    &:hover {
+      background-color: ${theme.colors.hover};
+      cursor: pointer;
+    }
+  `}
 `;

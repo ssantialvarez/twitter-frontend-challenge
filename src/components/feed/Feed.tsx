@@ -27,7 +27,7 @@ const Feed = ({ posts, loading, fetchNextPage, hasNextPage }: FeedProps) => {
       {posts.length === 0 && <p>Uups...nothing down here...</p>}
       {posts
         .map((post: Post) => (
-          <Tweet key={post.id} post={post} />
+          <Tweet key={post.id} post={post} hoverable/>
         ))}
       {(hasNextPage || loading) && (
           <div className="text-center mt-6 p-2">

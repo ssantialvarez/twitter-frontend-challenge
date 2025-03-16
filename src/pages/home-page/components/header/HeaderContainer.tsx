@@ -5,7 +5,7 @@ export const StyledHeaderContainer = styled.div`
     width: 100%;
     transition: ease-in-out 0.3s;
     max-height: 110px;
-
+    position: sticky;
     h5 {
         color: var(--grayscale-black, #000);
         /* H5 */

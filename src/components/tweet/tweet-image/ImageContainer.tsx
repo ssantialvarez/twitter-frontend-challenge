@@ -18,9 +18,8 @@ const ImageContainer = ({
 }: ImageContainerProps) => {
 
   const qtyImages = images.length
-
   return (
-    <StyledContainer maxWidth={"100%"} alignItems={"flex-start"} gap={"4px"}>
+    <StyledContainer maxWidth={"100%"} alignItems={"flex-start"} gap={"4px"} marginLeft={"56px"}>
       <StyledOverflowContainer
         flexDirection={"row"}
         gap={"4px"}
