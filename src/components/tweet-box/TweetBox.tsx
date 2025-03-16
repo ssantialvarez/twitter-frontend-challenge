@@ -32,7 +32,6 @@ const TweetBox = ({parentId, close, mobile, borderless} : TweetBoxProps) => {
     const httpService = useHttpRequestService();
     const dispatch = useDispatch();
     const {t} = useTranslation();
-    const service = useHttpRequestService()
     const user = useGetMe()
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -46,7 +45,7 @@ const TweetBox = ({parentId, close, mobile, borderless} : TweetBoxProps) => {
             setImagesPreview([]);
             dispatch(setLength(length + 1));
             const posts = await httpService.getPosts();
-            dispatch(updateFeed(posts));
+            dispatch(updateFeed(posts.posts));
             close && close();
         } catch (e) {
             console.log(e);
@@ -61,8 +60,11 @@ const TweetBox = ({parentId, close, mobile, borderless} : TweetBoxProps) => {
     };
 
     const handleAddImage = (newImages: File[]) => {
-        setImages(newImages);
-        const newImagesPreview = newImages.map((i) => URL.createObjectURL(i));
+        const updatedImages = [...images.slice(), ...newImages]
+        
+        
+        setImages(updatedImages);
+        const newImagesPreview = updatedImages.map((i) => URL.createObjectURL(i));
         setImagesPreview(newImagesPreview);
     };
 
@@ -92,7 +94,7 @@ const TweetBox = ({parentId, close, mobile, borderless} : TweetBoxProps) => {
                     value={content}
                     src={user?.profilePicture}
                 />
-                <StyledContainer padding={"0 0 0 10%"}>
+                <StyledContainer padding={"0 0 0 8%"}>
                     <ImageContainer
                         editable
                         images={imagesPreview}

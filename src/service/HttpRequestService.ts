@@ -35,8 +35,10 @@ const httpRequestService = {
   
   createPost: async (data: PostData) => {
     let res
-    if(!data.parentId)
-      res = await axiosInstance.post('/post', data);
+    if(!data.parentId){
+      const images : string[] = data.images ? data.images?.map((img) => img.name): []
+      res = await axiosInstance.post('/post', {content: data.content, images});
+    }
     else
       res = await axiosInstance.post(`/comment/${data.parentId}`, {content: data.content, images: data.images})
     if (res.status === 201) {
@@ -62,9 +64,10 @@ const httpRequestService = {
   getPosts: async (limit?: number, nextCursor?: string, lastCursor?: string) => {
     const query = new URLSearchParams({
       ...(limit && { limit: limit.toString() }),
-      ...(nextCursor && { nextCursor }),
-      ...(lastCursor && { lastCursor })
+      ...(nextCursor && { after: nextCursor }),
+      ...(lastCursor && { before: lastCursor })
     }).toString();
+    
     const res = await axiosInstance.get(`/post/?${query}`);
     if (res.status === 200) {
       return res.data;

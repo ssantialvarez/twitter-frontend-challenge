@@ -11,3 +11,6 @@ export const S3Service = {
     });
   },
 };
+
+
+export const S3Url = 'https://twitter-backend-demo-a617f6da-58a7-4888-b927-88eaae142243.s3.us-east-2.amazonaws.com/';

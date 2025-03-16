@@ -65,7 +65,7 @@ const ChatPage = () => {
     }
   });
 
-  // ✅ Enviar mensaje
+  
   const handleSendMessage = () => {
     if (messageInput.trim() && idReceiver && idSender) {
       socket.emit("chatMessage", messageInput, idReceiver, idSender);

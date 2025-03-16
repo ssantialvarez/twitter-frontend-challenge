@@ -87,7 +87,7 @@ const Tweet = ({post}: TweetProps) => {
           <p>{post.content}</p>
         </StyledContainer>
         {post.images && post.images!.length > 0 && (
-            <StyledContainer padding={"0 0 0 10%"}>
+            <StyledContainer padding={"0 0 0 8%"}>
               <ImageContainer images={post.images}/>
             </StyledContainer>
         )}

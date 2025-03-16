@@ -1,6 +1,7 @@
 import React from "react";
 import { StyledAvatarContainer } from "./AvatarContainer";
 import NameImage from "./NameImage";
+import { S3Url } from "../../../service/S3Service";
 
 interface AvatarProps {
   src: string;
@@ -12,7 +13,7 @@ interface AvatarProps {
 
 const Avatar = ({ src, alt, onClick, width, height }: AvatarProps) => {
   if(!src.startsWith('/static/')){
-    src = 'https://twitter-backend-demo-a617f6da-58a7-4888-b927-88eaae142243.s3.us-east-2.amazonaws.com/' + src
+    src = S3Url + src
   }
   return (
     <StyledAvatarContainer onClick={onClick} width={width} height={height}>

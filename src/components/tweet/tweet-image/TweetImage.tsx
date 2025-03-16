@@ -11,6 +11,8 @@ import { StyledRemoveIconContainer } from "./RemoveIconContainer";
 interface TweetImageProps {
   src: string;
   alt: string;
+  index: number;
+  qtyImages: number;
   removable?: boolean;
   removeFunction?: () => void;
 }
@@ -18,17 +20,24 @@ const TweetImage = ({
   src,
   alt,
   removable,
+  index,
+  qtyImages = 1,
   removeFunction,
 }: TweetImageProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
+  
+  const borderRadius = "12px"
+
+  const borderRadiusMat = [
+    [`${borderRadius} ${borderRadius} ${borderRadius} ${borderRadius}`],
+    [`${borderRadius} 0% 0% ${borderRadius}`, `0% ${borderRadius} ${borderRadius} 0%`],
+    [`${borderRadius} 0% 0% 0%`, `0% ${borderRadius} 0% 0%`, `0% 0% ${borderRadius} ${borderRadius}`],
+    [`${borderRadius} 0% 0% 0%`, `0% ${borderRadius} 0% 0%`, `0% 0% 0% ${borderRadius}", "0% 0% ${borderRadius} 0%`]
+  ];
 
   return (
-    <StyledContainer maxHeight={`${100}%`}>
-      <StyledOverflowContainer
-        maxWidth={"100%"}
-        borderRadius={"16px"}
-        alignItems={"flex-end"}
-      >
+    <>
+      <StyledOverflowContainer maxWidth={"100%"} alignItems={"flex-end"}>
         {removable && (
           <StyledRemoveIconContainer>
             <RemoveIcon onClick={removeFunction} />
@@ -37,6 +46,7 @@ const TweetImage = ({
         <StyledTweetImage
           src={src}
           alt={alt}
+          style={{ borderRadius: borderRadiusMat[qtyImages-1][index] || "0%" }}
           onClick={() => setShowModal(true)}
         />
       </StyledOverflowContainer>
@@ -46,7 +56,8 @@ const TweetImage = ({
         alt={alt}
         onClose={() => setShowModal(false)}
       />
-    </StyledContainer>
+    </>
   );
 };
+
 export default TweetImage;

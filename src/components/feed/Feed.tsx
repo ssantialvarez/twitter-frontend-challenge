@@ -29,8 +29,7 @@ const Feed = ({ posts, loading, fetchNextPage, hasNextPage }: FeedProps) => {
         .map((post: Post) => (
           <Tweet key={post.id} post={post} />
         ))}
-      {loading && <Loader />}
-      {hasNextPage && (
+      {(hasNextPage || loading) && (
           <div className="text-center mt-6 p-2">
             <button ref={ref}>
               <Loader/>
