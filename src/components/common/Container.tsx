@@ -35,7 +35,7 @@ export const StyledContainer = styled(ContainerBase).attrs<ContainerProps>(
 `;
 
 export const StyledScrollableContainer = styled(StyledContainer)`
-  scrollbar-width: auto;
+  
   overflow-y: auto;  
 `;
 

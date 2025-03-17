@@ -19,9 +19,9 @@ const ImageInput = ({ setImages, parentId }: ImageInputProps) => {
   };
 
   return (
-    <StyledContainer justifyContent={"center"}>
+    <StyledContainer justifyContent={"center"} width={"18px"}>
       <label htmlFor={`image-upload-${parentId ?? ""}`}>
-        <img src={Action} alt="Upload Images" />
+        <img style={{ cursor: "pointer" }}  src={Action} alt="Upload Images" />
       </label>
       <input
         type="file"

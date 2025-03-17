@@ -93,6 +93,20 @@ const httpRequestService = {
     }
   },
 
+  getPossibleChats: async () => {
+    const res = await axiosInstance.get('/chat/possible_chats');
+    if (res.status === 200) {
+      return res.data;
+    }
+  },
+
+  getActiveChats: async () => {
+    const res = await axiosInstance.get('/chat/active_chats');
+    if (res.status === 200) {
+      return res.data;
+    }
+  },
+
   me: async () => {
     const res = await axiosInstance.get('/user/me');
     if (res.status === 200) {

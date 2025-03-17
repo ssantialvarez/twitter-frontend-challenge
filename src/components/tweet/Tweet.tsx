@@ -52,13 +52,14 @@ const Tweet = ({post, hoverable=false}: TweetProps) => {
   };
 
   return (
-      <StyledTweetContainer hoverable={hoverable} onClick={() => navigate(`/post/${post.id}`)}>
+      <StyledTweetContainer hoverable={hoverable} >
         <StyledContainer
             style={{width: "100%"}}
             flexDirection={"row"}
             alignItems={"center"}
             justifyContent={"center"}
             maxHeight={"48px"}
+            onClick={() => navigate(`/profile/${post.author.id}`)}
         >
           <AuthorData
               id={post.author.id}
@@ -84,10 +85,14 @@ const Tweet = ({post, hoverable=false}: TweetProps) => {
               </>
           )}
         </StyledContainer>
-        <StyledContainer >
+        <StyledContainer onClick={() => navigate(`/post/${post.id}`)}>
           <p>{post.content}</p>
           {post.images && post.images!.length > 0 && (
-              <ImageContainer images={post.images}/>
+            <StyledContainer paddingTop={"4px"} marginLeft={"56px"}>
+
+              <ImageContainer images={post.images} />
+
+            </StyledContainer>
           )}
         </StyledContainer>
         

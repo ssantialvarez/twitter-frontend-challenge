@@ -31,7 +31,7 @@ const PostPage = () => {
 
   
     return (
-      <StyledContainer borderRight={"1px solid #ebeef0"}>
+      <StyledContainer maxWidth={"600px"} borderRight={"1px solid #ebeef0"}>
         <StyledContainer
           padding={"8px"}
           borderBottom={"1px solid #ebeef0"}

@@ -41,7 +41,7 @@ const Reaction = ({
           active: reactionReacted,
         })[img]
       }
-      <p>{reactionCount}</p>
+      <p>{!Number.isNaN(reactionCount) && reactionCount}</p>
     </StyledReactionContainer>
   );
 };

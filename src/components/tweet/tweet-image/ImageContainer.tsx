@@ -19,7 +19,7 @@ const ImageContainer = ({
 
   const qtyImages = images.length
   return (
-    <StyledContainer maxWidth={"100%"} alignItems={"flex-start"} gap={"4px"} marginLeft={"56px"}>
+    <StyledContainer maxWidth={"100%"} alignItems={"flex-start"} gap={"4px"} >
       <StyledOverflowContainer
         flexDirection={"row"}
         gap={"4px"}
@@ -37,8 +37,6 @@ const ImageContainer = ({
             removeFunction={() =>
               removeFunction ? removeFunction(index) : console.log("")
             }
-            
-
           />
         ))}
       </StyledOverflowContainer>

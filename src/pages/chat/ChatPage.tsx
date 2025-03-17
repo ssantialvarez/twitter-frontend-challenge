@@ -12,37 +12,69 @@ import { useParams } from "react-router-dom";
 import icon from "../../assets/icon.jpg";
 import Avatar from "../../components/common/avatar/Avatar";
 import { socket } from "../../util/SocketInterfaces";
-import { ChatBubble } from "../../components/chat/ChatBubble";
+import { ChatBubble } from "../../components/chat/chat-bubble/ChatBubble";
 import { Author } from "../../service";
-import { maxHeaderSize } from "http";
+import { useHttpRequestService } from "../../service/HttpRequestService";
+import ChatModal from "../../components/chat/chat-modal/ChatModal";
+import Button from "../../components/button/Button";
+import { ButtonType } from "../../components/button/StyledButton";
+import { MessagesSquare } from "lucide-react";
 
 const ChatPage = () => {
+  const [showChatModal, setChatModal] = useState<boolean>(false);
   const [chatHistory, setChatHistory] = useState<{ message: string; idSender: string; serverOffset: number }[]>([]);
-  const [messageInput, setMessageInput] = useState<string>(""); // Nuevo estado para el input
-
-  const followers: Author[] = useGetFollowers();
-
+  const [messageInput, setMessageInput] = useState<string>(""); 
+  const [receiver, setReceiver] = useState<Author | undefined> (undefined);
+  const httpService = useHttpRequestService();
+  const [activeChats, setActiveChats] = useState<Author[]>([]) 
+  const { t } = useTranslation();
   const id = useParams().id as string;
   let idReceiver: string | undefined;
   let idSender: string | undefined;
-
   if (id) {
     const ids = id.split("_");
     idReceiver = ids[1];
     idSender = ids[0];
   }
 
-  const receiver: Author | undefined = followers.find((user) => user.id === idReceiver);
+  useEffect(() => {
+    const fetchActiveChats = async () => {
+      try {
+        const chats = await httpService.getActiveChats();
+        setActiveChats(chats);
+      } catch (error) {
+        console.error("Error fetching active chats:", error);
+      }
+    };
 
-  const { t } = useTranslation();
+    fetchActiveChats();
+  }, []); 
 
-  const observer = useRef<IntersectionObserver | null>(null);
+
+  useEffect(() => {
+    const fetchReceiver = async (idReceiver: string | undefined) => {
+      
+        if(idReceiver)
+          setReceiver(await httpService.getProfile(idReceiver));
+        else 
+          setReceiver(undefined)
+    };
+    if(idReceiver){
+      socket.emit("joinRoom", idReceiver, idSender);
+      socket.emit("bringRoom", idReceiver, idSender);
+    }
+    
+
+    fetchReceiver(idReceiver ?? '');
+  }, [idReceiver]); 
+
+
+
 
   useEffect(() => {
     if (receiver) {
-      socket.emit("joinRoom", idReceiver, idSender);
-      socket.emit("bringRoom", idReceiver, idSender);
-
+      
+      
       socket.on("chatHistory", (messages) => {
         
         setChatHistory(
@@ -59,6 +91,7 @@ const ChatPage = () => {
       });
 
       return () => {
+        
         socket.off("chatHistory");
         socket.off("chatMessage");
       };
@@ -69,7 +102,7 @@ const ChatPage = () => {
   const handleSendMessage = () => {
     if (messageInput.trim() && idReceiver && idSender) {
       socket.emit("chatMessage", messageInput, idReceiver, idSender);
-      setMessageInput(""); // Limpiar el input
+      setMessageInput(""); 
     }
   };
 
@@ -81,7 +114,7 @@ const ChatPage = () => {
         </StyledContainer>
 
         <StyledScrollableContainer padding={"8px"} gap={"16px"}>
-          {followers.map((user: any, index: any) => (
+          {activeChats.map((user: any, index: any) => (
             <ChatUserBox
               key={index}
               name={user.name}
@@ -108,17 +141,23 @@ const ChatPage = () => {
         )}
 
         {!receiver && (
-          <StyledContainer padding={"8px"} gap={"16px"}>
-            <StyledH5>Select a message</StyledH5>
-            <StyledP primary>
-              Choose from your existing conversations, start a new one, or just keep swimming.
-            </StyledP>
+          <>
+          <StyledContainer alignContent="center"     justifyContent="center" alignItems="center" height={"100vh"}  padding={"8px"} gap={"16px"}>
+              <StyledH5>{t("placeholder.new-chat")}</StyledH5>
+              <Button buttonType={ButtonType.DEFAULT} type="button" text={t("placeholder.send")} size={"200px"} onClick={() => setChatModal(true)}/>
           </StyledContainer>
+          <ChatModal
+            show={showChatModal}
+            onClose={() => {
+              setChatModal(false);
+            }}
+          />
+          </>
         )}
 
-        <StyledScrollableContainer padding={"8px"} gap={"8px"}>
-          {chatHistory.map((chat, index) => (
-            <ChatBubble key={index} message={chat.message} isSender={receiver?.id !== chat.idSender} />
+        <StyledScrollableContainer maxHeight={"100vh"} padding={"8px"} gap={"8px"}>
+          {receiver && chatHistory.map((chat, index) => (
+            <ChatBubble key={index} message={chat.message} isSender={receiver?.id !== chat.idSender}  />
           ))}
         </StyledScrollableContainer>
 

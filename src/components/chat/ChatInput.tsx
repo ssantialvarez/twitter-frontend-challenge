@@ -8,7 +8,7 @@ export const ChatBarContainer = styled.div`
   background: ${(props) => props.theme.background};
   padding: 12px 16px;  
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+
 `;
 
 export const StyledChatBarInput = styled.input`

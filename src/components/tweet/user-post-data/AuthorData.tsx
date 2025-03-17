@@ -3,7 +3,8 @@ import { StyledAuthorDataContainer } from "./AuthorDataContainer";
 import Avatar from "../../common/avatar/Avatar";
 import Icon from "../../../assets/icon.jpg";
 import { StyledDot } from "../../common/Dot";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { StyledLink } from "../../common/text/Link";
 
 interface UserPostDataProps {
   createdAt: Date;
@@ -32,7 +33,7 @@ const AuthorData = ({
         alt={name}
         onClick={redirectToProfile}
       />
-      <p>{name}</p>
+     <StyledLink to={`/profile/${id}`}>{name}</StyledLink> 
       <p className={"username"}>{"@" + username}</p>
       <StyledDot />
       <p className={"username"}>
