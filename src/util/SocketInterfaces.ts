@@ -1,9 +1,5 @@
 import { io, Socket } from 'socket.io-client'; 
 
-interface SocketAuth {
-    serverOffset: number;
-}
-
 interface ServerToClientEvents {
     chatMessage: (message: string, idSender: string, serverOffset: number) => void;
     chatHistory: (messages: { content: string; senderId: string; createdAt: string }[]) => void;  
@@ -16,7 +12,7 @@ interface ClientToServerEvents {
     chatMessage: (message: string, receiverId: string, senderId: string) => void; 
 }
 
-const URL = process.env.NODE_ENV === 'production' ? undefined : 'http://localhost:8080';
+const URL = process.env.NODE_ENV === 'production' ? 'https://twitter-backend-production-2bd1.up.railway.app/api' : 'http://localhost:8080';
 
 export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(URL!, {
     withCredentials: true,      

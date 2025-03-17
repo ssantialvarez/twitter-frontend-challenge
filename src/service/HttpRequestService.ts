@@ -4,7 +4,8 @@ import { S3Service } from "./S3Service";
 
 const url =
   process.env.REACT_APP_API_URL || "http://localhost:8080/api";
-
+//'https://twitter-backend-production-2bd1.up.railway.app/api'
+//"http://localhost:8080/api"
 export const axiosInstance = axios.create({
   baseURL:url
 })
