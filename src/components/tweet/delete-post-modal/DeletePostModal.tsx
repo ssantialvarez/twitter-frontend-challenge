@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { DeleteIcon } from "../../icon/Icon";
 import Modal from "../../modal/Modal";
 import Button from "../../button/Button";
@@ -43,11 +43,38 @@ export const DeletePostModal = ({
     onClose();
   };
 
+
+  const modalRef = useRef<HTMLDivElement>(null);
+      
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+          if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+              setShowModal(false)
+              onClose()  
+          }
+      };
+      if (show) {
+          document.addEventListener("mousedown", handleClickOutside);
+      } else {
+          document.removeEventListener("mousedown", handleClickOutside);
+      }
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [show]);
+  
+  
+  
+
+
+
+
+
+
+
   return (
     <>
       {show && (
         <>
-          <StyledDeletePostModalContainer onClick={() => setShowModal(true)}>
+          <StyledDeletePostModalContainer ref={modalRef} onClick={() => setShowModal(true)}>
             <DeleteIcon />
             <p>{t("buttons.delete")}</p>
           </StyledDeletePostModalContainer>

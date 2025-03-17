@@ -15,7 +15,6 @@ import { useToast } from "../../components/toast/ToastContext";
 import { ToastType } from "../../components/toast/Toast";
 
 const ProfilePage = () => {
-  //const [profile, setProfile] = useState<User | null>(null);
   const [following, setFollowing] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [modalValues, setModalValues] = useState({

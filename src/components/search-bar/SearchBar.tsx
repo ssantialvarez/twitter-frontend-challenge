@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import SearchResultModal from "./search-result-modal/SearchResultModal";
 import { Author } from "../../service";
 import { useHttpRequestService } from "../../service/HttpRequestService";
@@ -12,6 +12,8 @@ export const SearchBar = () => {
   const service = useHttpRequestService();
   let debounceTimer: NodeJS.Timeout;
   const { t } = useTranslation();
+  const [showModal, setShowModal] = useState<boolean>(true)
+
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputQuery = e.target.value;
@@ -29,6 +31,13 @@ export const SearchBar = () => {
       }
     }, 300);
   };
+  
+  useEffect(() => {
+    setShowModal(query.length > 0)
+  }, [query]
+  )
+
+
 
   return (
     <StyledSearchBarContainer>
@@ -37,7 +46,9 @@ export const SearchBar = () => {
         value={query}
         placeholder={t("placeholder.search")}
       />
-      <SearchResultModal show={query.length > 0} results={results} />
+      <SearchResultModal show={showModal} results={results} onClose={() => {
+                setShowModal(false);
+              }}/>
     </StyledSearchBarContainer>
   );
 };

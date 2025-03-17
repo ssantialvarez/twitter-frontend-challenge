@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useHttpRequestService } from "../../../service/HttpRequestService";
 import { useTranslation } from "react-i18next";
 import { StyledChatModalContainer } from "./ChatModalContainer";
@@ -12,6 +12,7 @@ import ChatUserBox from "../ChatUserBox";
 import { createPortal } from "react-dom";
 import { StyledBlurredBackground } from "../../common/BlurredBackground";
 import { StyledModalContainer } from "../../modal/ModalContainer";
+import { StyledH5 } from "../../common/text";
 
 
 interface ChatModalProps {
@@ -29,15 +30,24 @@ export const ChatModal = ({
   const service = useHttpRequestService();
   const { t } = useTranslation();
 
-  const handleDelete = () => {
-    alert('hola')
-  };
+  const modalRef = useRef<HTMLDivElement>(null);
+      
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+          if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+              onClose()
+          }
+      };
+      if (show) {
+          document.addEventListener("mousedown", handleClickOutside);
+      } else {
+          document.removeEventListener("mousedown", handleClickOutside);
+      }
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [show]);
   
- 
-  const handleClose = () => {
-    
-    onClose();
-  };
+  
+  
 
   useEffect(() => {
       const fetchPossibleChats = async () => {
@@ -58,8 +68,9 @@ export const ChatModal = ({
   return (
       <>
       {show && createPortal(
-        <StyledBlurredBackground>
-          <StyledModalContainer>
+        <StyledBlurredBackground >
+          <StyledModalContainer ref={modalRef} > 
+            <StyledH5 style={{textAlign: "center"}}>{t("placeholder.send")}</StyledH5>
           <StyledScrollableContainer maxHeight={"180px"}  padding={"8px"} gap={"4px"}>
               {possibleChats.map((user: any, index: any) => (
                 <ChatUserBox

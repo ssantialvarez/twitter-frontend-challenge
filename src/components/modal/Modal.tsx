@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import { StyledBlurredBackground } from "../common/BlurredBackground";
 import Button from "../button/Button";
 import { ButtonType } from "../button/StyledButton";
@@ -24,11 +24,30 @@ const Modal = ({
   img,
   title,
 }: ModalProps) => {
+  
+
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+            onClose()
+        }
+    };
+    if (show) {
+        document.addEventListener("mousedown", handleClickOutside);
+    } else {
+        document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [show]);
+
+
   return (
     <>
       {show && createPortal(
-        <StyledBlurredBackground>
-          <StyledModalContainer>
+        <StyledBlurredBackground >
+          <StyledModalContainer ref={modalRef}>
             <StyledContainer alignItems={"center"} justifyContent={"center"}>
               {img && (
                 <img src={img} alt={"modal"} width={"32px"} height={"26px"} />

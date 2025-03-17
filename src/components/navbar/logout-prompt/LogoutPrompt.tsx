@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Modal from "../../modal/Modal";
 import logo from "../../../assets/logo.png";
 import Button from "../../button/Button";
@@ -9,8 +9,6 @@ import {ButtonType} from "../../button/StyledButton";
 import {StyledPromptContainer} from "./PromptContainer";
 import {StyledContainer} from "../../common/Container";
 import {StyledP} from "../../common/text";
-import {useHttpRequestService} from "../../../service/HttpRequestService";
-import {User} from "../../../service";
 import { useGetMe } from "../../../hooks/useUser";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -23,18 +21,11 @@ const LogoutPrompt = ({ show }: LogoutPromptProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
-  const service = useHttpRequestService()
   const user = useGetMe()
   const queryClient = useQueryClient()
-  /*
-  useEffect(() => {
-    handleGetUser().then(r => setUser(r))
-  }, []);
+  const modalRef = useRef<HTMLDivElement>(null);
 
-  const handleGetUser = async () => {
-    return await service.me()
-  }
-  */
+
   const handleClick = () => {
     setShowModal(true);
   };
@@ -53,15 +44,25 @@ const LogoutPrompt = ({ show }: LogoutPromptProps) => {
     queryClient.clear()
     navigate("/sign-in");
   };
-
+  
   useEffect(() => {
-    setShowPrompt(show);
+    const handleClickOutside = (event: MouseEvent) => {
+        if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+            setShowPrompt(false);
+        }
+    };
+    if (show) {
+        document.addEventListener("mousedown", handleClickOutside);
+    } else {
+        document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [show]);
 
   return (
     <>
       {showPrompt && (
-        <StyledPromptContainer>
+        <StyledPromptContainer ref={modalRef}>
           <StyledContainer
             flexDirection={"row"}
             gap={"16px"}

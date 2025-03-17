@@ -3,12 +3,10 @@ import {
     StyledLogoutPrompt,
     StyledProfileLogoutPromptContainer
 } from "./StyledProfileLogoutPromptContainer";
-import React, {useEffect, useState} from "react";
+import React, { useState } from "react";
 import icon from "../../assets/icon.jpg";
 import {StyledP} from "../common/text";
 import {StyledContainer} from "../common/Container";
-import {useHttpRequestService} from "../../service/HttpRequestService";
-import {User} from "../../service";
 import { useGetMe } from "../../hooks/useUser";
 import { S3Url } from "../../service/S3Service";
 
@@ -22,7 +20,6 @@ const ProfileLogoutPrompt = ({margin, direction}: ProfileLogoutPromptProps) => {
     const [logoutOpen, setLogoutOpen] = useState(false);
     const user = useGetMe()
 
-
     const handleLogout = () => {
         setLogoutOpen(!logoutOpen);
     };
@@ -30,7 +27,6 @@ const ProfileLogoutPrompt = ({margin, direction}: ProfileLogoutPromptProps) => {
     const handleButtonClick = (event: React.MouseEvent) => {
         event.stopPropagation();
     };
-    //console.log(user?.profilePicture)
 
     return (
         <StyledContainer

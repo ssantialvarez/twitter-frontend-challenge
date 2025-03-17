@@ -1,23 +1,16 @@
-import React, {useEffect, useState} from "react";
+import {useState} from "react";
 import NavItem from "./navItem/NavItem";
 import Button from "../button/Button";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {StyledTweetButton} from "../tweet-button/StyledTweetButton";
 import TweetModal from "../tweet-modal/TweetModal";
 import {IconType, LogoIcon} from "../icon/Icon";
-import Avatar from "../common/avatar/Avatar";
-import LogoutPrompt from "./logout-prompt/LogoutPrompt";
-import ThreeDots from "../common/ThreeDots";
 import {useTranslation} from "react-i18next";
 import {ButtonType} from "../button/StyledButton";
-import Icon from "../../assets/icon.jpg";
 import {StyledNavBarContainer} from "./NavBarContainer";
 import {StyledContainer} from "../common/Container";
 import {StyledIconContainer} from "./IconContainer";
 import {StyledNavItemsContainer} from "./navItem/NavItemsContainer";
-import {StyledP} from "../common/text";
-import {useHttpRequestService} from "../../service/HttpRequestService";
-import {User} from "../../service";
 import ProfileLogoutPrompt from "../profile-logout/ProfileLogoutPrompt";
 import { useGetMe } from "../../hooks/useUser";
 
