@@ -77,7 +77,7 @@ const Tweet = ({post, hoverable=false}: TweetProps) => {
                     }}
                 />
                 <ThreeDots
-                    onClick={() => {
+                    onClick={() => {  
                       setShowDeleteModal(!showDeleteModal);
                     }}
                 />

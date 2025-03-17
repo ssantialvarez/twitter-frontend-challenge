@@ -34,8 +34,7 @@ export const StyledContainer = styled(ContainerBase).attrs<ContainerProps>(
   }
 `;
 
-export const StyledScrollableContainer = styled(StyledContainer)`
-  
+export const StyledScrollableContainer = styled(StyledContainer)` 
   overflow-y: auto;  
 `;
 

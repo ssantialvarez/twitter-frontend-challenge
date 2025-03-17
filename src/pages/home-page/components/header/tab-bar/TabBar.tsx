@@ -20,14 +20,14 @@ const TabBar = () => {
       data = await service.getPostsFollowing().catch((e) => {
         console.log(e);
       });
-      console.log(data)
+      
     } else {
       data = await service.getPosts().catch((e) => {
         console.log(e);
       });
       data = data.posts
     }
-    
+    dispatch(updateFeed([]))
     dispatch(updateFeed(data));
   };
 

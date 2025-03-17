@@ -31,11 +31,11 @@ const RecommendationPage = () => {
   );
 
   return (
-    <StyledContainer maxWidth={"600px"} borderRight={"1px solid"}>
+    <StyledContainer maxWidth={"600px"} borderRight={"1px solid var(--grayscale-container-line, #f0f3f4)"}>
       <StyledContainer padding={"16px"} maxHeight={"53px"}>
         <StyledH5>{t("header.connect")}</StyledH5>
       </StyledContainer>
-      <StyledScrollableContainer max-height={"600px"} padding={"8px"} gap={"16px"}>
+      <StyledScrollableContainer max-height={"100vh"} padding={"8px"} gap={"16px"}>
         {users.map((user, index) => {
           if (users.length === index + 1) {
             return (

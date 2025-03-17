@@ -30,7 +30,6 @@ const TweetBox = ({parentId, close, mobile, borderless} : TweetBoxProps) => {
     const [images, setImages] = useState<File[]>([]);
     const [imagesPreview, setImagesPreview] = useState<string[]>([]);
 
-    const {length, query} = useAppSelector((state) => state.user);
     const httpService = useHttpRequestService();
     const dispatch = useDispatch();
     const {t} = useTranslation();
@@ -47,7 +46,6 @@ const TweetBox = ({parentId, close, mobile, borderless} : TweetBoxProps) => {
             setContent("");
             setImages([]);
             setImagesPreview([]);
-            dispatch(setLength(length + 1));
             showToast(`${t("toast.tweet")}`, ToastType.SUCCESS)
             const posts = await httpService.getPosts();
             dispatch(updateFeed(posts.posts));
