@@ -10,7 +10,8 @@
     "unfollow": "Has dejado de seguir a",
     "follow": "Has comenzado a seguir a",
     "tweet": "¡Tweet publicado exitosamente!",
-    "deleted-tweet": "¡Has eliminado el tweet exitosamente!"
+    "deleted-tweet": "¡Has eliminado el tweet exitosamente!",
+    "too-many-images": "¡No podes subir mas de 4 imagenes!"
   },
   "navbar": {
     "home": "Principal",

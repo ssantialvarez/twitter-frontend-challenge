@@ -23,6 +23,7 @@ export const DeletePostModal = ({
   id,
   onClose,
 }: DeletePostModalProps) => {
+  const [showDelete, setShowDelete] = useState<boolean>(show)
   const [showModal, setShowModal] = useState<boolean>(false);
   const feed = useAppSelector((state) => state.user.feed);
   const dispatch = useAppDispatch();
@@ -58,19 +59,19 @@ export const DeletePostModal = ({
               onClose()  
           }
       };
-      if (show) {
+      if (showDelete) {
           document.addEventListener("mousedown", handleClickOutside);
       } else {
           document.removeEventListener("mousedown", handleClickOutside);
       }
       return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [show]);
-    
+    }, [showDelete]);
+
   return (
     <>
       {show && (
         <>
-          <StyledDeletePostModalContainer ref={modalRef} onClick={() => setShowModal(true)}>
+          <StyledDeletePostModalContainer ref={modalRef} onClick={() => {setShowModal(true); setShowDelete(false)}}>
             <DeleteIcon />
             <p>{t("buttons.delete")}</p>
           </StyledDeletePostModalContainer>

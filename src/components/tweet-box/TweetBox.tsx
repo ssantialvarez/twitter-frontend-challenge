@@ -65,12 +65,13 @@ const TweetBox = ({parentId, close, mobile, borderless} : TweetBoxProps) => {
     };
 
     const handleAddImage = (newImages: File[]) => {
-        const updatedImages = [...images.slice(), ...newImages]
-        
-        
-        setImages(updatedImages);
-        const newImagesPreview = updatedImages.map((i) => URL.createObjectURL(i));
-        setImagesPreview(newImagesPreview);
+        if(images.length + newImages.length < 5){
+            const updatedImages = [...images.slice(), ...newImages]
+            setImages(updatedImages);
+            const newImagesPreview = updatedImages.map((i) => URL.createObjectURL(i));
+            setImagesPreview(newImagesPreview);
+        }else
+            showToast(`${t("toast.too-many-images")}`, ToastType.ALERT)
     };
 
     return (

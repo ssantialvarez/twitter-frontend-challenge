@@ -21,12 +21,13 @@ const HomePage = () => {
         <SearchBar />
         <SuggestionBox />
       </StyledUserSuggestionContainer>
-      <Button  buttonType={ButtonType.DEFAULT} size={"50px"} text="Toggle Mensajes"  onClick={() => setIsOpen(!isOpen)} />
-        
-
-      <ChatPortal isOpen={isOpen} onClose={() => setIsOpen(false)}  />
+      
     </>
   );
 };
 
 export default HomePage;
+//<Button  buttonType={ButtonType.DEFAULT} size={"50px"} text="Toggle Mensajes"  onClick={() => setIsOpen(!isOpen)} />
+        
+
+//<ChatPortal isOpen={isOpen} onClose={() => setIsOpen(false)}  />

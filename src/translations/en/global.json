@@ -10,7 +10,8 @@
     "unfollow": "You have unfollowed",
     "follow": "You are now following",
     "tweet": "Your tweet has been published successfully!",
-    "deleted-tweet": "Your tweet has been deleted successfully!"
+    "deleted-tweet": "Your tweet has been deleted successfully!",
+    "too-many-images": "You cannot upload more than 4 images!"
   },
   "navbar": {
     "home": "Home",
