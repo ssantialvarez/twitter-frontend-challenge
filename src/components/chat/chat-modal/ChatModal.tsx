@@ -1,11 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useHttpRequestService } from "../../../service/HttpRequestService";
 import { useTranslation } from "react-i18next";
-import { StyledChatModalContainer } from "./ChatModalContainer";
-import Modal from "../../modal/Modal";
-import Button from "../../button/Button";
-import { ButtonType } from "../../button/StyledButton";
-import { DeleteIcon } from "lucide-react";
 import { Author } from "../../../service";
 import { StyledScrollableContainer } from "../../common/Container";
 import ChatUserBox from "../ChatUserBox";

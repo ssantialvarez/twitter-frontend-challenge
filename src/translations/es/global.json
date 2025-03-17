@@ -6,6 +6,12 @@
     "connect": "Conectar",
     "messages": "Mensajes"
   },
+  "toast": {
+    "unfollow": "Has dejado de seguir a",
+    "follow": "Has comenzado a seguir a",
+    "tweet": "¡Tweet publicado exitosamente!",
+    "deleted-tweet": "¡Has eliminado el tweet exitosamente!"
+  },
   "navbar": {
     "home": "Principal",
     "explore": "Explorar",
@@ -59,7 +65,8 @@
   },
   "title": {
     "login": "Ingresa tu correo electrónico o @nombre_de_usuario.",
-    "register": "Crea tu cuenta"
+    "register": "Crea tu cuenta",
+    "private": "Cuenta privada"
   },
   "chat": {
     "placeholder": "Escribe un mensaje"  

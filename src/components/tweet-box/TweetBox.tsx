@@ -15,6 +15,8 @@ import {useDispatch} from "react-redux";
 import {User} from "../../service";
 import { useAppSelector } from "../../redux/hooks";
 import { useGetMe } from "../../hooks/useUser";
+import { useToast } from "../toast/ToastContext";
+import { ToastType } from "../toast/Toast";
 
 interface TweetBoxProps {
   parentId?: string;
@@ -34,6 +36,8 @@ const TweetBox = ({parentId, close, mobile, borderless} : TweetBoxProps) => {
     const {t} = useTranslation();
     const user = useGetMe()
 
+    const { showToast } = useToast()
+
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setContent(e.target.value);
     };
@@ -44,6 +48,7 @@ const TweetBox = ({parentId, close, mobile, borderless} : TweetBoxProps) => {
             setImages([]);
             setImagesPreview([]);
             dispatch(setLength(length + 1));
+            showToast(`${t("toast.tweet")}`, ToastType.SUCCESS)
             const posts = await httpService.getPosts();
             dispatch(updateFeed(posts.posts));
             close && close();

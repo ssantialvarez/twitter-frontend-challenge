@@ -17,7 +17,7 @@ const Toast = ({ message, type, show }: ToastProps) => {
   const [isShown, setIsShown] = useState<boolean>(show ?? true);
   const iconMap = {
     [ToastType.ALERT]: <AlertIcon />,
-    [ToastType.SUCCESS]: <AlertIcon />,
+    [ToastType.SUCCESS]: <AlertIcon color="blue"/>,
   };
 
   const toastIcon = iconMap[type] || null;

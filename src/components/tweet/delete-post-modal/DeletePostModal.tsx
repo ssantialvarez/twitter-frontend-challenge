@@ -9,6 +9,8 @@ import { ButtonType } from "../../button/StyledButton";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { Post } from "../../../service";
 import { StyledDeletePostModalContainer } from "./DeletePostModalContainer";
+import { useToast } from "../../toast/ToastContext";
+import { ToastType } from "../../toast/Toast";
 
 interface DeletePostModalProps {
   show: boolean;
@@ -25,11 +27,14 @@ export const DeletePostModal = ({
   const feed = useAppSelector((state) => state.user.feed);
   const dispatch = useAppDispatch();
   const service = useHttpRequestService();
+  const { showToast } = useToast()
   const { t } = useTranslation();
 
   const handleDelete = () => {
+    
     try {
       service.deletePost(id).then((res) => console.log(res));
+      showToast(`${t("toast.deleted-tweet")}`, ToastType.ALERT)
       const newFeed = feed.filter((post: Post) => post.id !== id);
       dispatch(updateFeed(newFeed));
       handleClose();
@@ -60,15 +65,6 @@ export const DeletePostModal = ({
       }
       return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [show]);
-  
-  
-  
-
-
-
-
-
-
 
   return (
     <>

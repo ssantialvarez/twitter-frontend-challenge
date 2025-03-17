@@ -3,7 +3,6 @@ import ProfileInfo from "./ProfileInfo";
 import {useNavigate, useParams} from "react-router-dom";
 import Modal from "../../components/modal/Modal";
 import {useTranslation} from "react-i18next";
-import {User} from "../../service";
 import {ButtonType} from "../../components/button/StyledButton";
 import {useHttpRequestService} from "../../service/HttpRequestService";
 import Button from "../../components/button/Button";
@@ -11,8 +10,6 @@ import ProfileFeed from "../../components/feed/ProfileFeed";
 import {StyledContainer} from "../../components/common/Container";
 import {StyledH5} from "../../components/common/text";
 import { useGetMe, useGetProfile } from "../../hooks/useUser";
-import { useToast } from "../../components/toast/ToastContext";
-import { ToastType } from "../../components/toast/Toast";
 
 const ProfilePage = () => {
   const [following, setFollowing] = useState<boolean>(false);
@@ -131,7 +128,7 @@ const ProfilePage = () => {
                   {(following || profile.public) ? (
                       <ProfileFeed/>
                   ) : (
-                      <StyledH5>Private account</StyledH5>
+                      <StyledH5>{t("title.private")}</StyledH5>
                   )}
                 </StyledContainer>
                 <Modal

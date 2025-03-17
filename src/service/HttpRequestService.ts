@@ -246,7 +246,7 @@ const httpRequestService = {
   },
 
   deleteProfile: async () => {
-    const res = await axiosInstance.delete('/user/me');
+    const res = await axiosInstance.delete('/user');
 
     if (res.status === 204) {
       localStorage.removeItem("token");

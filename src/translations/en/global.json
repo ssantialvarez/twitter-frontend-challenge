@@ -6,6 +6,12 @@
     "connect": "Connect",
     "messages": "Messages"
   },
+  "toast": {
+    "unfollow": "You have unfollowed",
+    "follow": "You are now following",
+    "tweet": "Your tweet has been published successfully!",
+    "deleted-tweet": "Your tweet has been deleted successfully!"
+  },
   "navbar": {
     "home": "Home",
     "explore": "Explore",
@@ -59,7 +65,8 @@
   },
   "title": {
     "login": "Enter your email or username",
-    "register": "Create your account"
+    "register": "Create your account",
+    "private": "Private account"
   },
   "chat": {
     "placeholder": "Start a new message"  

@@ -7,6 +7,8 @@ import {ButtonType} from "../button/StyledButton";
 import {Author, User} from "../../service";
 import { useGetMe } from "../../hooks/useUser";
 import { StyledBoxContainer } from "./BoxContainer";
+import { useToast } from "../toast/ToastContext";
+import { ToastType } from "../toast/Toast";
 
 interface FollowUserBoxProps {
   profilePicture?: string;
@@ -24,6 +26,7 @@ const FollowUserBox = ({
   const {t} = useTranslation();
   const service = useHttpRequestService()
   const user = useGetMe()
+  const { showToast } = useToast();
   
   const [isFollowing, setIsFollowing] = useState(false);
   useEffect(() => {
@@ -34,8 +37,10 @@ const FollowUserBox = ({
   
   const handleFollow = async () => {
     if (isFollowing) {
+      showToast(`${t("toast.unfollow")} @${username}`, ToastType.ALERT);
       await service.unfollowUser(id);
     } else {
+      showToast(`${t("toast.follow")} @${username}`, ToastType.SUCCESS);
       await service.followUser(id);
     }
     setIsFollowing(!isFollowing);
