@@ -12,7 +12,7 @@ interface ClientToServerEvents {
     chatMessage: (message: string, receiverId: string, senderId: string) => void; 
 }
 
-const URL = 'https://twitter-backend-production-2bd1.up.railway.app';
+const URL = 'http://localhost:8080';
 
 export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(URL!, {
     withCredentials: true,      
