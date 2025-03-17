@@ -67,14 +67,9 @@ const ChatPage = () => {
 
     fetchReceiver(idReceiver ?? '');
   }, [idReceiver]); 
-
-
-
-
+  
   useEffect(() => {
-    if (receiver) {
-      
-      
+    if (receiver) {      
       socket.on("chatHistory", (messages) => {
         
         setChatHistory(

@@ -59,7 +59,6 @@ const Tweet = ({post, hoverable=false}: TweetProps) => {
             alignItems={"center"}
             justifyContent={"center"}
             maxHeight={"48px"}
-            onClick={() => navigate(`/profile/${post.author.id}`)}
         >
           <AuthorData
               id={post.author.id}

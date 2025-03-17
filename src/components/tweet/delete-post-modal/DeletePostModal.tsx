@@ -65,7 +65,7 @@ export const DeletePostModal = ({
       }
       return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [show]);
-
+    
   return (
     <>
       {show && (
